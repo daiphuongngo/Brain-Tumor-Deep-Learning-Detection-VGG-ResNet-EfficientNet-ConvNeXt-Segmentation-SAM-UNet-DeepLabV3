@@ -1,4 +1,4 @@
-# Brain-Tumor-Deep-Learning-Detection-CNN-VGG-ResNet-EfficientNet-ConvNeXt-and-Segmentation-SAM-UNet
+# Brain Tumor Deep Learning Detection (CNN, VGG, ResNet, EfficientNet, ConvNeXt) and Segmentation (Segment Anything Model (SAM), UNet-like Architecture, K-Means)
 
 ![Harvard_University_logo svg](https://github.com/user-attachments/assets/0ea18127-d8c2-46ec-9f3e-10f2dc01d4d7)
 
