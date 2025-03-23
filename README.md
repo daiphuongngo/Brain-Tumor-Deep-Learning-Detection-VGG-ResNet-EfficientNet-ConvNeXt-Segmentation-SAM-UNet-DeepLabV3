@@ -99,6 +99,32 @@ Contrast differences: tumors can be displayed with contrast variations which is 
 
 Different scale analysis: Tumors can exhibit in varying sizes so features should be extracted at different scales when analyzing multi-scale features. 
 
+# References
+
+#### Medical Imaging, CAD, and AI 
+
+> **Pianykh, O.S.** (2024). *Computer-Aided Diagnosis: From Feature Detection to AI in Radiology*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, Harvard Extension School.  
+> ➤ Key topics: CAD pipeline (feature extraction → classifier → validation), edge & line detection for fractures, convolution in LoG filters, multiscale resolution, PyRadiomics, CNNs for medical imaging.
+
+Use this reference to support:
+- Why ML is used in radiological images
+- KMeans + morphological segmentation logic
+- Convolutional methods (LoG, Gaussian, etc.)
+- Discussion of PyRadiomics as an alternative or extension
+
+> “Pathologies manifest as deviations from normal patterns; by extracting numeric features like shape, density, and texture, we can quantify abnormality — the essence of CAD.” — *Pianykh (2024)*
+
+#### Multiscale Image Enhancement & MUSICA 
+
+> **Pianykh, O.S.** (2024). *Image Enhancement Techniques in Medical Imaging: From Denoising to CNNs*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, Harvard Extension School.  
+> ➤ Key topics: noise vs edges, bilateral filtering, Gaussian pyramids, Laplacian pyramids, multiscale decomposition and synthesis, MUSICA-style amplification.
+
+Use this reference to support:
+- Why using multiscale decomposition
+- The basis for MUSICA-style image contrast enhancement
+- Limitations of averaging vs adaptive multiscale amplification
+
+> “By decomposing an image into low- and high-frequency components, and rebalancing with detail amplification, MUSICA enhances the contrast and diagnostic utility of the image.” — *Pianykh (2024)*
 #### 🧪 **Image Segmentation & Morphological Techniques**
 1. **Morphological Snakes (Active Contour Models)**  
    *scikit-image team.*  
