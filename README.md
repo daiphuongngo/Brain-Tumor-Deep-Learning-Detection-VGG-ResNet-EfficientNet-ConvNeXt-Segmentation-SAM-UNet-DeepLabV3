@@ -4,12 +4,6 @@
 
 ![Harvard-Extension-School](https://github.com/user-attachments/assets/7de8c00d-6d74-456f-9b18-abb3174e83d5)
 
-## First Words
-
-In my **Brain Tumor Detection** project, I chose this dataset from Kaggle with 115 brain imges with tumor and 98 without (clearly showing imbalance): 
-
-https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
-
 ## Timeline: January 6th - May 16th, 2025
 
 ## Professor: Stephen Elston
@@ -17,6 +11,12 @@ https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detect
 ## Author: Dai-Phuong Ngo (Liam)
 
 ## Course: CSCI E-25 Computer Vision in Python
+
+## First Words
+
+In my **Brain Tumor Detection** project, I chose this dataset from Kaggle with 115 brain imges with tumor and 98 without (clearly showing imbalance): 
+
+https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
 
 First, I will start with **Data Exploration** and **Image Preprocessing**:
 
