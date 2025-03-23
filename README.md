@@ -1,10 +1,22 @@
 # Brain-Tumor-Deep-Learning-Detection-CNN-VGG-ResNet50-EfficientNet-ConvNeXt-and-Segmentation-SAM-UNet
 
+![Harvard_University_logo svg](https://github.com/user-attachments/assets/0ea18127-d8c2-46ec-9f3e-10f2dc01d4d7)
+
+![Harvard-Extension-School](https://github.com/user-attachments/assets/7de8c00d-6d74-456f-9b18-abb3174e83d5)
+
 ## First Words
 
 In my **Brain Tumor Detection** project, I chose this dataset from Kaggle with 115 brain imges with tumor and 98 without (clearly showing imbalance): 
 
 https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
+
+## Timeline: January 6th - May 16th, 2025
+
+## Professor: Stephen Elston
+
+## Author: Dai-Phuong Ngo (Liam)
+
+## Course: CSCI E-25 Computer Vision in Python
 
 First, I will start with **Data Exploration** and **Image Preprocessing**:
 
