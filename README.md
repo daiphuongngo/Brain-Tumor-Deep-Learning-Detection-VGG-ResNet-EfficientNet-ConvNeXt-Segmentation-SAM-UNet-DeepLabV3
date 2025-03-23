@@ -114,6 +114,8 @@ Use this reference to support:
 
 > “Pathologies manifest as deviations from normal patterns; by extracting numeric features like shape, density, and texture, we can quantify abnormality — the essence of CAD.” — *Pianykh (2024)*
 
+---
+
 #### Multiscale Image Enhancement & MUSICA 
 
 > **Pianykh, O.S.** (2024). *Image Enhancement Techniques in Medical Imaging: From Denoising to CNNs*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, Harvard Extension School.  
@@ -125,6 +127,9 @@ Use this reference to support:
 - Limitations of averaging vs adaptive multiscale amplification
 
 > “By decomposing an image into low- and high-frequency components, and rebalancing with detail amplification, MUSICA enhances the contrast and diagnostic utility of the image.” — *Pianykh (2024)*
+
+---
+
 #### 🧪 **Image Segmentation & Morphological Techniques**
 1. **Morphological Snakes (Active Contour Models)**  
    *scikit-image team.*  
