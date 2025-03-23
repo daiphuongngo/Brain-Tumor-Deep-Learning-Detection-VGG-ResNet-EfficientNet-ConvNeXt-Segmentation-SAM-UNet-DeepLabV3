@@ -1,4 +1,4 @@
-# Brain Tumor Deep Learning Detection (CNN, VGG, ResNet, EfficientNet, ConvNeXt) and Segmentation (Segment Anything Model (SAM), UNet-like Architecture, K-Means)
+# 🧠 Brain Tumor Deep Learning Detection (CNN, VGG, ResNet, EfficientNet, ConvNeXt) and Segmentation (Segment Anything Model (SAM), UNet-like Architecture, K-Means)
 
 ![Harvard_University_logo svg](https://github.com/user-attachments/assets/0ea18127-d8c2-46ec-9f3e-10f2dc01d4d7)
 
@@ -98,4 +98,49 @@ Asymmetry and unusual boundaries: tumor objects tend to exist on one side, causi
 Contrast differences: tumors can be displayed with contrast variations which is not observed in health brain image.
 
 Different scale analysis: Tumors can exhibit in varying sizes so features should be extracted at different scales when analyzing multi-scale features. 
+
+#### 🧪 **Image Segmentation & Morphological Techniques**
+1. **Morphological Snakes (Active Contour Models)**  
+   *scikit-image team.*  
+   _Morphological Snakes: Active contours without edges._  
+   https://scikit-image.org/docs/0.24.x/auto_examples/segmentation/plot_morphsnakes.html
+
+2. **Watershed Segmentation**  
+   *scikit-image team.*  
+   _Image segmentation using the watershed algorithm._  
+   https://scikit-image.org/docs/0.24.x/auto_examples/segmentation/plot_watershed.html
+
+3. **Morphological Operations in Image Processing**  
+   *scikit-image team.*  
+   _Denoising, sharpening and edge detection using kernel convolution._  
+   https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html
+
+---
+
+#### 🤖 **Deep Learning with Keras**
+
+4. **Segment Anything with SAM & Keras**  
+   *Keras Team, 2024.*  
+   _Segment Anything: Integrate SAM models for high-quality image segmentation._  
+   https://keras.io/examples/vision/sam/
+
+5. **Keras Applications (Pretrained CNNs)**  
+   *Keras Documentation.*  
+   _Keras Applications - Pretrained models like ResNet, VGG, Inception._  
+   https://keras.io/api/applications/
+
+6. **U-Net for Oxford Pets Dataset (Semantic Segmentation)**  
+   *Keras Team, 2023.*  
+   _Image segmentation of Oxford Pets using U-Net._  
+   https://keras.io/examples/vision/oxford_pets_image_segmentation/
+
+---
+
+#### 🧠🧬 **Medical Image Dataset**
+
+7. **Brain MRI Dataset for Tumor Detection (Kaggle)**  
+   *Navoneel Chakrabarty, Kaggle.*  
+   _Brain MRI Images for Brain Tumor Detection (Yes/No classification)._  
+   https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
+
 
