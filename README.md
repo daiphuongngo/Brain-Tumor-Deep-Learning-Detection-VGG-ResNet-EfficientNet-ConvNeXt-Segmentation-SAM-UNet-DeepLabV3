@@ -4,13 +4,15 @@
 
 ![Harvard-Extension-School](https://github.com/user-attachments/assets/7de8c00d-6d74-456f-9b18-abb3174e83d5)
 
+## **Master of Liberal Arts, Data Science**
+
+## CSCI E-25 Computer Vision in Python
+
 ## Timeline: January 6th - May 16th, 2025
 
 ## Professor: Stephen Elston
 
 ## Author: Dai-Phuong Ngo (Liam)
-
-## Course: CSCI E-25 Computer Vision in Python
 
 ## First Words
 
