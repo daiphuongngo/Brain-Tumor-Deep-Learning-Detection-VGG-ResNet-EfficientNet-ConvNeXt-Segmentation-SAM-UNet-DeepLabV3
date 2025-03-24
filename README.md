@@ -135,10 +135,10 @@ Essentially: Apply the above with fine-tuned contrast amplification at each leve
 # Deep Learning (to be continued)
 ---
 
-## Detection to be continued)
+## Detection (to be continued)
 ---
 
-## Segmentation to be continued)
+## Segmentation (to be continued)
 
 --- 
 
