@@ -8,7 +8,7 @@
 
 ## CSCI E-25 Computer Vision in Python
 
-## Timeline: January 6th - May 16th, 2025
+## Timeline: January 6th - May 16th, 2025 (In Progress)
 
 ## Professor: Stephen Elston
 
@@ -132,6 +132,15 @@ Essentially: Apply the above with fine-tuned contrast amplification at each leve
 
 ![download (16)](https://github.com/user-attachments/assets/81394d7a-f58d-468c-9754-e7638bd0a569)
 
+# Deep Learning (to be continued)
+---
+
+## Detection to be continued)
+---
+
+## Segmentation to be continued)
+
+--- 
 
 # References
 
