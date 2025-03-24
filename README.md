@@ -99,6 +99,40 @@ Contrast differences: tumors can be displayed with contrast variations which is 
 
 Different scale analysis: Tumors can exhibit in varying sizes so features should be extracted at different scales when analyzing multi-scale features. 
 
+## Enhancement Concepts
+
+1. Multiscale Image Enhancement (Laplacian Pyramid approach)
+
+Decompose image into low- and high-frequency components (Gaussian + detail).
+
+Amplify detail (high-frequency) layers.
+
+Reconstruct the enhanced image via synthesis.
+
+2. MUSICA (Multiscale Image Contrast Amplification)
+
+Essentially: Apply the above with fine-tuned contrast amplification at each level.
+
+![Cropped images](https://github.com/user-attachments/assets/ef1f6f52-51d8-434c-8200-fb23f6c381f2)
+
+![download (17)](https://github.com/user-attachments/assets/63f1bc9f-5c3d-419c-98fc-0794edb9d5be)
+
+![download (12)](https://github.com/user-attachments/assets/e389182f-c5e0-40e9-8431-8df5cdfd0507)
+
+![download (11)](https://github.com/user-attachments/assets/0c65ccb8-08b0-4182-bb4f-6a1b9ed4947b)
+
+![download (13)](https://github.com/user-attachments/assets/87a05431-6101-4578-bd02-3b967bf1b72d)
+
+
+## K Means for Tumor Mask in colors
+
+![download (14)](https://github.com/user-attachments/assets/5557cd08-41ed-4029-806b-9887c3ee306d)
+
+![download (15)](https://github.com/user-attachments/assets/405ef50d-f565-4d3d-ad18-655efc59b36d)
+
+![download (16)](https://github.com/user-attachments/assets/81394d7a-f58d-468c-9754-e7638bd0a569)
+
+
 # References
 
 #### Medical Imaging, CAD, and AI 
