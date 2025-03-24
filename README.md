@@ -55,6 +55,12 @@ With the #2 annotated data thanks to SAM as mentioned above, I will fine-tune th
 
 https://keras.io/examples/vision/oxford_pets_image_segmentation/
 
+https://keras.io/examples/vision/deeplabv3_plus/
+
+https://keras.io/examples/vision/basnet_segmentation/
+
+https://keras.io/examples/vision/fully_convolutional_network/
+
 This dataset is manageable in size, and I’ll rely on Keras, scikit-image and pretrained models to optimize both performance and training time.
 
 ## Computer Vision Application for Image Preprocessing
