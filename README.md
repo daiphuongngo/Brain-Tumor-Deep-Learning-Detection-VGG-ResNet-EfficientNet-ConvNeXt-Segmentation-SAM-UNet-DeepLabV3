@@ -1,4 +1,4 @@
-# 🧠 Brain Tumor Deep Learning Detection (CNN, VGG, ResNet, EfficientNet, ConvNeXt) and Segmentation (Segment Anything Model (SAM), UNet-like Architecture, K-Means)
+# 🧠🧬 Brain Tumor Deep Learning Detection (CNN, VGG, ResNet, EfficientNet, ConvNeXt) and Segmentation (Segment Anything Model (SAM), UNet-like Architecture, K-Means)
 
 ![Harvard_University_logo svg](https://github.com/user-attachments/assets/0ea18127-d8c2-46ec-9f3e-10f2dc01d4d7)
 
@@ -164,9 +164,9 @@ From this observation of all signals, the best is should be **4**. which offers 
 
 # References
 
-#### Medical Imaging, CAD, and AI 
+#### **Medical Imaging, CAD, and AI**
 
-> **Pianykh, O.S.** (2024). *Computer-Aided Diagnosis: From Feature Detection to AI in Radiology*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, Harvard Extension School.  
+> **Pianykh, O.S.** (2024). *Computer-Aided Diagnosis: From Feature Detection to AI in Radiology*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, **Harvard University Medical School**.  
 > ➤ Key topics: CAD pipeline (feature extraction → classifier → validation), edge & line detection for fractures, convolution in LoG filters, multiscale resolution, PyRadiomics, CNNs for medical imaging.
 
 Use this reference to support:
@@ -179,9 +179,9 @@ Use this reference to support:
 
 ---
 
-#### Multiscale Image Enhancement & MUSICA 
+#### **Multiscale Image Enhancement & Multiscale Image Contrast Amplification (MUSICA)**
 
-> **Pianykh, O.S.** (2024). *Image Enhancement Techniques in Medical Imaging: From Denoising to CNNs*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, Harvard Extension School.  
+> **Pianykh, O.S.** (2024). *Image Enhancement Techniques in Medical Imaging: From Denoising to CNNs*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, **Harvard University Medical School**.  
 > ➤ Key topics: noise vs edges, bilateral filtering, Gaussian pyramids, Laplacian pyramids, multiscale decomposition and synthesis, MUSICA-style amplification.
 
 Use this reference to support:
@@ -190,6 +190,20 @@ Use this reference to support:
 - Limitations of averaging vs adaptive multiscale amplification
 
 > “By decomposing an image into low- and high-frequency components, and rebalancing with detail amplification, MUSICA enhances the contrast and diagnostic utility of the image.” — *Pianykh (2024)*
+
+
+---
+
+#### **Clustering & Dimensionality Reduction**
+
+> Elston, S. F. (2024). *Introduction to Clustering Models – Part 1* [Lecture slides]. CSCI E-108: Data Mining, Discovery, and Exploration, **Harvard University Extension School**.  
+   - Topics: Unsupervised learning, K-Means clustering, distance and similarity metrics, cluster properties (compactness & separation), evaluation metrics (WCSS, BCSS, Silhouette score, Calinski-Harabasz index).
+
+> Elston, S. F. (2024). *Introduction to Clustering Models – Part 2* [Lecture slides]. CSCI E-108: Data Mining, Discovery, and Exploration, **Harvard University Extension School**.  
+   - Topics: Curse of dimensionality in clustering, hierarchical clustering, DBSCAN, OPTICS, affinity propagation, spectral clustering, and graph-based methods.
+
+> Elston, S. F. (2024). *Dimensionality Reduction – Part 1* [Lecture slides]. CSCI E-108: Data Mining, Discovery, and Exploration, Harvard University Extension School.  
+   - Topics: PCA, feature projection, manifold learning (e.g., UMAP), and visualization strategies for high-dimensional data clustering.
 
 ---
 
