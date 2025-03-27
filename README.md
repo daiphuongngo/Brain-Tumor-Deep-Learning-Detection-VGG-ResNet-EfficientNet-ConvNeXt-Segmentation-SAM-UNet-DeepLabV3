@@ -132,6 +132,20 @@ Essentially: Apply the above with fine-tuned contrast amplification at each leve
 
 ## K Means for Tumor Mask in colors
 
+### Find the best K
+
+![download (23)](https://github.com/user-attachments/assets/56225500-e45b-441e-8960-f9ef923aadc3)
+
+Based on the **WCSS (Inertia)**, WCSS decreases significantly from k = 2 to k = 4, then tapers off, which is the elbow method suggesting k ≈ 4.
+
+As per the **BCSS**, BCSS remains consistent increment with k, but the rate of increase slows after k = 4.
+
+Regarding the **Silhouette Score**, the highest score at k = 2, but that is often too coarse. There is a noteworthy drop after k = 4, suggesting diminishing structure.
+
+In terms of the **Calinski-Harabasz Index**, it increases linearly, which is useful but doesn't suggest the elbow like the WCSS or the Silhouette.
+
+From this observation of all signals, the best is should be **4**. which offers a balance of natural elbow in WCSS, a decent SIlhouette score and a fair trade-off of detail and interpretability for medical segmentation, such as: background, skull layer, brain tissue, tumor.
+
 ![download (14)](https://github.com/user-attachments/assets/5557cd08-41ed-4029-806b-9887c3ee306d)
 
 ![download (15)](https://github.com/user-attachments/assets/405ef50d-f565-4d3d-ad18-655efc59b36d)
