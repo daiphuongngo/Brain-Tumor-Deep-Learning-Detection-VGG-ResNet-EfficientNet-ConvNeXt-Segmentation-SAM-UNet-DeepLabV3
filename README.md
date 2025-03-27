@@ -164,7 +164,7 @@ From this observation of all signals, the best is should be **4**. which offers 
 
 # References
 
-#### **Medical Imaging, CAD, and AI**
+### **Medical Imaging, CAD, and AI**
 
 > **Pianykh, O.S.** (2024). *Computer-Aided Diagnosis: From Feature Detection to AI in Radiology*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, **Harvard University Medical School**.  
 > ➤ Key topics: CAD pipeline (feature extraction → classifier → validation), edge & line detection for fractures, convolution in LoG filters, multiscale resolution, PyRadiomics, CNNs for medical imaging.
@@ -179,7 +179,7 @@ Use this reference to support:
 
 ---
 
-#### **Multiscale Image Enhancement & Multiscale Image Contrast Amplification (MUSICA)**
+### **Multiscale Image Enhancement & Multiscale Image Contrast Amplification (MUSICA)**
 
 > **Pianykh, O.S.** (2024). *Image Enhancement Techniques in Medical Imaging: From Denoising to CNNs*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, **Harvard University Medical School**.  
 > ➤ Key topics: noise vs edges, bilateral filtering, Gaussian pyramids, Laplacian pyramids, multiscale decomposition and synthesis, MUSICA-style amplification.
@@ -194,7 +194,7 @@ Use this reference to support:
 
 ---
 
-#### **Clustering & Dimensionality Reduction**
+### **Clustering & Dimensionality Reduction**
 
 > Elston, S. F. (2024). *Introduction to Clustering Models – Part 1* [Lecture slides]. CSCI E-108: Data Mining, Discovery, and Exploration, **Harvard University Extension School**.  
    - Topics: Unsupervised learning, K-Means clustering, distance and similarity metrics, cluster properties (compactness & separation), evaluation metrics (WCSS, BCSS, Silhouette score, Calinski-Harabasz index).
@@ -207,7 +207,7 @@ Use this reference to support:
 
 ---
 
-#### 🧪 **Image Segmentation & Morphological Techniques**
+### 🧪 **Image Segmentation & Morphological Techniques**
 1. **Morphological Snakes (Active Contour Models)**  
    *scikit-image team.*  
    _Morphological Snakes: Active contours without edges._  
@@ -225,7 +225,7 @@ Use this reference to support:
 
 ---
 
-#### 🤖 **Deep Learning with Keras**
+### 🤖 **Deep Learning with Keras**
 
 4. **Segment Anything with SAM & Keras**  
    *Keras Team, 2024.*  
@@ -244,7 +244,7 @@ Use this reference to support:
 
 ---
 
-#### 🧠🧬 **Medical Image Dataset**
+### 🧠🧬 **Medical Image Dataset**
 
 7. **Brain MRI Dataset for Tumor Detection (Kaggle)**  
    *Navoneel Chakrabarty, Kaggle.*  
