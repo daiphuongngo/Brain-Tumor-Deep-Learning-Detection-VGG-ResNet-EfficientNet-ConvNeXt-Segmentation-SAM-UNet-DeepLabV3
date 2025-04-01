@@ -162,6 +162,7 @@ From this observation of all signals, the best should be **4**. which offers a b
 
 ![download (33)](https://github.com/user-attachments/assets/9fdfb972-59fb-4795-b204-458edaac358a)
 
+The surrounding background with some blue regions are now surpressed to become black before applying colorized K Means with suggested 4 colors.
 
 # Deep Learning (to be continued)
 ---
