@@ -195,7 +195,7 @@ Based on the plots of 7 images, the best K is 9. This is a consistent balancing 
 This pipeline is a generative modeling approach that learns to generate realistic brain tumor MRI images by reversing a diffusion (noise) process. It has multiple real-world use cases in detection, segmentation and data augmentation.
 
 | | |
-Goal	| How This Pipeline Helps
+| Goal | How This Pipeline Helps |
 | 🧬 Tumor detection |	Data augmentation for CNN classifiers |
 | 🎯 Segmentation | 	Preprocessing, denoising, and potential pretraining |
 | 🔬 Research | Simulation of rare or hard-to-find tumor cases |
@@ -207,6 +207,7 @@ Epoch 1/1000
 ```
 ![Epoch 1](https://github.com/user-attachments/assets/6b0fd6bd-460c-496e-ba21-bb308ade5dd0)
 
+The generated images look like pure static/noise, which is as expected that the model hasn’t learned to denoise at all, proven by the image loss & noise loss are both high (~0.77 and ~2.4).
 
 ```
 Epoch 300/1000
@@ -214,6 +215,7 @@ Epoch 300/1000
 ```
 ![Epoch 300](https://github.com/user-attachments/assets/8a0b75cc-07ad-4ab0-b8b8-2998210b3463)
 
+Tumor shapes begin to emerge, though textures are still noisy and blurry. The model has learned rough anatomical structure but not fine-grained features.
 
 ```
 Epoch 600/1000
@@ -221,6 +223,7 @@ Epoch 600/1000
 ```
 ![Epoch 600](https://github.com/user-attachments/assets/f98f9d57-53e5-4a7a-b5c0-d62d39465d96)
 
+There are clearer boundaries and smoother tissue structure. The tumor regions are visually recognizable. Therefore, I can see that denoising is much more successful with noise loss drops to ~0.063.
 
 ```
 Epoch 1000/1000
@@ -228,15 +231,21 @@ Epoch 1000/1000
 ```
 ![Epoch 1000](https://github.com/user-attachments/assets/463eb9e4-73f2-4977-86c4-e1a369a84f74)
 
+The images resemble actual MRIs with more kind of realistic tumor shapes, tissue contrast and fairly cleaner backgrounds.Textures are quite smoother and segmentation boundaries are quite sharper. Final losses show positive and promising signs with noise loss ~0.060 and image loss ~0.116. The model has converged and produces high-quality synthetic MRI tumor scans.
+
 ### Model Weights
 
 ![download (55)](https://github.com/user-attachments/assets/a0bee998-642c-4357-b384-f779b0163a9d)
 
+Training and validation image loss (MAE between original and denoised images) both drop significantly. Training image loss reaches ~0.1; validation around ~0.2. Even though image loss isn't directly used to optimize the model, its decrease shows improved denoising quality. Low image loss implies the network is not only predicting noise well but is also reconstructing clean images that closely match the ground truth.
 
 ![download (57)](https://github.com/user-attachments/assets/831a26b5-d75f-48ff-84a1-4f9bbb090590)
 
+Both curves show a sharp decrease in the first 100–200 epochs, then taper and stabilize. Validation loss is higher than training loss, but the gap is stable, which is not increasing significantly. The model is learning to predict the noise added during the forward diffusion process. A decreasing noise loss implies that the model is getting better at predicting noise accurately, which is critical for denoising in the reverse diffusion. The gap between training and validation suggests some generalization error, but not severe overfitting.
 
 ![download (56)](https://github.com/user-attachments/assets/1f90f651-bfb4-4baa-b109-f8de1e9dc4d5)
+
+KID measures the distributional similarity between generated images and real images. The KID metric fluctuates heavily between epochs, staying roughly in the range of 1.66 to 1.76. The fluctuations suggest that while noise and image reconstruction improve, distribution matching is noisy, likely due to the given small validation set, high variance in InceptionV3 feature space and/or still imperfect denoising leading to unrealistic artifacts.
 
 # Deep Learning (to be continued)
 ---
