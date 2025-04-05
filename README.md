@@ -190,6 +190,53 @@ Based on the plots of 7 images, the best K is 9. This is a consistent balancing 
 
 ![download (54)](https://github.com/user-attachments/assets/7964aff1-81c1-436f-9983-6376b837b88b)
 
+## Denoising Diffusion Implicit Models
+
+This pipeline is a generative modeling approach that learns to generate realistic brain tumor MRI images by reversing a diffusion (noise) process. It has multiple real-world use cases in detection, segmentation and data augmentation.
+
+| | |
+Goal	| How This Pipeline Helps
+| 🧬 Tumor detection |	Data augmentation for CNN classifiers |
+| 🎯 Segmentation | 	Preprocessing, denoising, and potential pretraining |
+| 🔬 Research | Simulation of rare or hard-to-find tumor cases |
+| 🛠️ Anomaly detection	| Measure how well a sample matches the learned tumor space |
+
+```
+Epoch 1/1000
+10/10 ━━━━━━━━━━━━━━━━━━━━ 0s 2s/step - i_loss: 2.4668 - n_loss: 0.7776 
+```
+![Epoch 1](https://github.com/user-attachments/assets/6b0fd6bd-460c-496e-ba21-bb308ade5dd0)
+
+
+```
+Epoch 300/1000
+10/10 ━━━━━━━━━━━━━━━━━━━━ 0s 95ms/step - i_loss: 0.1418 - n_loss: 0.0835
+```
+![Epoch 300](https://github.com/user-attachments/assets/8a0b75cc-07ad-4ab0-b8b8-2998210b3463)
+
+
+```
+Epoch 600/1000
+10/10 ━━━━━━━━━━━━━━━━━━━━ 0s 96ms/step - i_loss: 0.1301 - n_loss: 0.0631
+```
+![Epoch 600](https://github.com/user-attachments/assets/f98f9d57-53e5-4a7a-b5c0-d62d39465d96)
+
+
+```
+Epoch 1000/1000
+10/10 ━━━━━━━━━━━━━━━━━━━━ 0s 96ms/step - i_loss: 0.1161 - n_loss: 0.0601 
+```
+![Epoch 1000](https://github.com/user-attachments/assets/463eb9e4-73f2-4977-86c4-e1a369a84f74)
+
+### Model Weights
+
+![download (55)](https://github.com/user-attachments/assets/a0bee998-642c-4357-b384-f779b0163a9d)
+
+
+![download (57)](https://github.com/user-attachments/assets/831a26b5-d75f-48ff-84a1-4f9bbb090590)
+
+
+![download (56)](https://github.com/user-attachments/assets/1f90f651-bfb4-4baa-b109-f8de1e9dc4d5)
 
 # Deep Learning (to be continued)
 ---
