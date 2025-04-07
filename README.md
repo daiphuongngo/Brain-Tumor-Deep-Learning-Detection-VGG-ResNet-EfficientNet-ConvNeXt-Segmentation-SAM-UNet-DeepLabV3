@@ -119,6 +119,12 @@ Reconstruct the enhanced image via synthesis.
 
 Essentially: Apply the above with fine-tuned contrast amplification at each level.
 
+These processe are crucial in enhancing image quality overall and promote finer details and objects. Without these processes, the original images' qualities are varied and undermined, which can cause unexpected outputs, namely in the segmented tumor for brain MRIs with tumor. The below is indentied with a mask on tumor but this mask also covers unwanted ares like normal soft tissue region.
+
+![download (68)](https://github.com/user-attachments/assets/fdc95f37-6a1f-44f8-8457-7bd93dabce6d)
+
+Now I will proceed with the MUSICA for MRIs with tumor(s).
+
 ![Cropped images](https://github.com/user-attachments/assets/ef1f6f52-51d8-434c-8200-fb23f6c381f2)
 
 ![download (17)](https://github.com/user-attachments/assets/63f1bc9f-5c3d-419c-98fc-0794edb9d5be)
