@@ -255,6 +255,60 @@ KID measures the distributional similarity between generated images and real ima
 
 ## Segmentation (to be continued)
 
+### Segment Anything Model with Transformers (SAM)
+
+SAM has the following components:
+
+| ![](https://imgur.com/oLfdwuB.png) |
+|:--:|
+| Image taken from the official [SAM blog post](https://ai.facebook.com/blog/segment-anything-foundation-model-image-segmentation/) |
+
+The image encoder is responsible for computing image embeddings. When interacting with
+SAM, we compute the image embedding one time (as the image encoder is heavy) and then
+reuse it with different prompts mentioned above (points, bounding boxes, masks).
+
+Points and boxes (so-called sparse prompts) go through a lightweight prompt encoder,
+while masks (dense prompts) go through a convolutional layer. We couple the image
+embedding extracted from the image encoder and the prompt embedding and both go to a
+lightweight mask decoder. The decoder is responsible for predicting the mask.
+
+| ![](https://i.imgur.com/QQ9Ts5T.png) |
+|:--:|
+| Figure taken from the [SAM paper](https://arxiv.org/abs/2304.02643) |
+
+SAM was pre-trained to predict a _valid_ mask for any acceptable prompt. This requirement allows SAM to output a valid mask even when the prompt is ambiguous to understand -- this
+makes SAM ambiguity-aware. Moreover, SAM predicts multiple masks for a single prompt.
+
+I will check out the [SAM paper](https://arxiv.org/abs/2304.02643) and the [blog post](https://ai.facebook.com/blog/segment-anything-foundation-model-image-segmentation/) to learn more about the additional details of SAM and the dataset used to pre-trained it.
+
+## Running inference with SAM
+
+There are three checkpoints for SAM:
+
+* [sam-vit-base](https://huggingface.co/facebook/sam-vit-base)
+* [sam-vit-large](https://huggingface.co/facebook/sam-vit-large)
+* [sam-vit-huge](https://huggingface.co/facebook/sam-vit-huge).
+
+I load `sam-vit-base` in
+[`TFSamModel`](https://huggingface.co/docs/transformers/main/model_doc/sam#transformers.TFSamModel).
+
+I also need `SamProcessor`for the associated checkpoint.
+
+Let's now define a set of points I will use as the prompt.
+
+![download (58)](https://github.com/user-attachments/assets/f98dbd85-1e1d-4550-937e-c282229c8a6f)
+
+`outputs` has got two attributes of our interest:
+
+* `outputs.pred_masks`: which denotes the predicted masks.
+  
+* `outputs.iou_scores`: which denotes the IoU scores associated with the masks.
+  
+Let's post-process the masks and visualize them with their IoU scores:
+
+![download (59)](https://github.com/user-attachments/assets/64cd1c3a-85ac-43f8-ac4d-f2e48a82ab47)
+
+As can be noticed, all the masks are _valid_ masks for the point prompt I provided.
 --- 
 
 # References
