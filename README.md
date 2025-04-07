@@ -309,6 +309,7 @@ Let's post-process the masks and visualize them with their IoU scores:
 ![download (59)](https://github.com/user-attachments/assets/64cd1c3a-85ac-43f8-ac4d-f2e48a82ab47)
 
 As can be noticed, all the masks are _valid_ masks for the point prompt I provided.
+
 --- 
 
 # References
