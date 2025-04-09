@@ -199,7 +199,7 @@ Based on the plots of 7 images, the best K is 9. This is a consistent balancing 
 
 ### Find Best K with Average Clustering Plots
 
-As plotting the 4 clustering plots for each image would be tedious, I will average the 4 metrics for the chose images to provide 1 set of clustering plots of them only.
+As plotting the 4 clustering plots for each image would be tedious, I will average the 4 metrics for the chose images to provide 1 set of clustering plots of them only. Based on the new plots, the best K is now 10.
 
 ![download (69)](https://github.com/user-attachments/assets/2dad9dba-9fcd-4934-a494-1ab128755547)
 
@@ -314,9 +314,7 @@ There are three checkpoints for SAM:
 I load `sam-vit-base` in
 [`TFSamModel`](https://huggingface.co/docs/transformers/main/model_doc/sam#transformers.TFSamModel).
 
-I also need `SamProcessor`for the associated checkpoint.
-
-Let's now define a set of points I will use as the prompt.
+Then, I also need `SamProcessor`for the associated checkpoint. Let's define a set of points I will use as the prompt.
 
 ![download (58)](https://github.com/user-attachments/assets/f98dbd85-1e1d-4550-937e-c282229c8a6f)
 
