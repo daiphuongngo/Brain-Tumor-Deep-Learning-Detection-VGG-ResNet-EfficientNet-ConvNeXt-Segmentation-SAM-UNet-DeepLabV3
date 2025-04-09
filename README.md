@@ -99,13 +99,55 @@ Tumors can be displayed in bright or dark areas. Using intensity histograms and 
 
 Some key properties that I will use in these applications are as follows:
 
-Asymmetry and unusual boundaries: tumor objects tend to exist on one side, causing an asymmetry appearance.
+- **Asymmetry and unusual boundaries**: tumor objects tend to exist on one side, causing an asymmetry appearance.
 
-Contrast differences: tumors can be displayed with contrast variations which is not observed in health brain image.
+- **Contrast differences**: tumors can be displayed with contrast variations which is not observed in health brain image.
 
-Different scale analysis: Tumors can exhibit in varying sizes so features should be extracted at different scales when analyzing multi-scale features. 
+- **Different scale analysis**: Tumors can exhibit in varying sizes so features should be extracted at different scales when analyzing multi-scale features. 
+
+## Cropping Images while reducing cropping aggressiveness
+
+I will approach the brain MRI images without tumor first to validate if all images truly contain no tumor as wrongly placed or classified images could diminish the training process later on. My purposes at this step are to crop the brain region from each image to remove irrelevant background, including: excessive black background, non-black surrounding frame, some colored annotations on the black background which tend to exist at the image corner. At this stage, I decided not to engage with skull layer removal as each image might have inconsistent qualities, brightness, sharpness, resolution, etc which hinders me to find an absolutely efficient skull layer removal for all images. Then I will compute RGB Cumulative Distribution Functions (CDFs) from the cropped images and visualize both the cropped brain regions and their RGG intensity profiles. These plots can create a visual and statistical baseline for healthy brain understanding and comparison with brain images suffering with tumor. 
+
+Then I will switch my attention to the MRIs with tumor. Similarly to the techniques applied for those MRIs without tumor, I'll make the cropping more conservative by blurring less before thresholding to preserve edges and using adaptive thresholding instead of Otsu for more local sensitivity, as well as expanding the bounding box slightly after detecting the largest contour. This makes sure that I will not clip out vital anatomy, especially the skull later and some of brain tissue which might have tumor closely attached to. I identified some images in this subset that are the minority needing soft cropping only.
+
+### Crop Function
+
+As images come from different MRI scanners and scanning angles with varied qualities, resolution, sizes, etc, I will isolate the actual brain content in the image and remove everything else like background, text overlays, non-black edges and excessive noise. My aim is to leave the new edges of the cropped images that can fit the skull outer layer. Therefore, later on, when applying any other processing steps, the cropped images will be less affected by those artifacts.
+
+I came up with two cropping strategies:
+
+- Soft cropping uses adaptive thresholding: I believe this will be useful for complex or inconsistent lighting conditions in minority of MRIs. This technique calculates a threshold value for each region in the image separately. Therefore, it upholds better segmentation when lighting is uneven or image quality is unreliable.
+
+- Hard or standard cropping uses Otsu’s global thresholding: This technique is ideal for well-contrasted, evenly lit images, comprised of by the majority of MRIs.
+
+When either way of the thresholding step is applied, I can extract contours, which are conencted white areas, from the binary image. At this stage, I assume the largest contour represents the brain object. Then I wil compute a bounding box around it. I also add padding to minimizing risks of cutting off any part of the brain, especially the brain tissues inside the skull layer. Another way is that soft cropping is also helpful to manually pinpoint any images that are cut off too harshly by the hard or standard cropping. Eventually, this step makes sure that the brain is centered and I can remove other irrelevant or non-crucial areas before further analysis.
+
+### RGB CDF
+
+At this step, I will compute the cumulative distribution of pixel intensity values for each color channel of blue, green and red. For each channel, I will flatten the 2D image into a 1D liste of pixel values and then calculate a histogram of intensity counts with 256 bins for intensity levels ranging from 0 to 255 on the x axis. After that, I calcualte the cumulative sym of the histogram, which provides the CDF. At last, I normalize the CDF by dividing it by the total number of pixels to contain the range from 0 to 1 on the y axis. I believe the CDF is the best option to illustrate the pixel proportion to understand the MRIs' contrast, brightness and color balance.
+
+### Batch Processing and Visualization
+
+For easiness and readability of viewing the images and CDFs, I chose batches of 10 at a time to be processed. For each batch, there will be 10 images processed. And for each image, I will check if soft cropping is better selected than hard cropping before applying cropping to isolate the brain. Then I compute the RGD CDFs as explained above for the cropped region. Eventually, these processes are crucial for medical imaging as if a tumor is diagnosed, there migth be increased variance, skewed brightness or even clusters of very dark or very bright regions. CDF also provides me detection whether the image enhancement (MUSICA to be applied later) or cropping approaches might change characteristics in the image.
+
+### Touch up on Image 44
+
+Based on the above results, I noticed that the Image 44 is an outlier with the white background while all other images have black background. I will perform a background cleanup operation to detect and replace white background pixels with black ones. Below is the visual comparision of the original and the result. Then I will overwrite the original with the result in the subfolder. This step is to standardize the image background as an outlier like this might cause distractions, and to prevent white regions from making pixel intensity distributions skewed or compromising my later segmentation algorithms. The white background might be problematic for image segmentations as white pixels might be wrongly interpreted as oart of the tissue or especially of the tumor. It will also affect the CDFs when white pixels inflate the intensity profile. Furthermore, there might be risk that white background can cause sensitivity for CNNs trained on natural MRIs (having black background).
+
+![download (73)](https://github.com/user-attachments/assets/1d29ab6e-3f8d-43d3-be70-ca92504b4c3d)
+
+### Resolve white layer surrounding Image 145's black background
+
+Likewise, I also notice another outlier that have white border which requires turning these white border pixels into black. The reason is that they can inferfere with image analysis like enhancement, clustering and segmentation. 
+
+My idea starts with converting it to grayscale and create a white pixel mask, which is not directly used for masking but for diagnostic step. I then create a mask using cv2.inRange() to select pixels falling into the RGB ranges between [220, 220, 220] for light gray and near white pixels, and [255, 255, 255] for pure white pixel. The mask serves as an identification of potential white border artifacts or background which need to be blacked out. After that, I use a small kernel of 3x3 square to dilate the mask which expands the white area slightly. This add-on helps to catch thin outlines or isolated white pixels. After identifying the mask of unnecessary white areas, I will replace them with black [0, 0, 0]. This will prevent brightness of regions that are not related to anatomy, that will potentially cause skewness or misleading in ehanncement, segmentation and intensity analysis.
+
+![download (74)](https://github.com/user-attachments/assets/81455465-6e49-4a7d-8896-e01102a8efb0)
 
 ## Enhancement Concepts
+
+This is the heart of my enhancement process for brain MRIs. MUSICA stands for Multiscale Image Contrast Amplification. It constructs a Gaussian pyramid. It downsamples by generating a sequence of increasing smaller images. After that, it upsamples by going backward with generating reconstructed images while amplifying the image details like edges, transitions, fine-grained artifacts that were previously lost between levels of downsampling. In other words, it emphasizes the detail by using an alpha multiplier and adds back into the new version with higher resolution at each scale. The results of this technique in my project is quite impressive and immensed when it can make fine brain structures like tissue and skull boundaries visually defined, which benefits manual interpretation and my later segmentation as well as classification.
 
 1. Multiscale Image Enhancement (Laplacian Pyramid approach)
 
@@ -199,12 +241,21 @@ Based on the plots of 7 images, the best K is 9. This is a consistent balancing 
 
 ### Find Best K with Average Clustering Plots
 
+
 As plotting the 4 clustering plots for each image would be tedious, I will average the 4 metrics for the chose images to provide 1 set of clustering plots of them only. Based on the new plots, the best K is now 10.
 
 ![download (69)](https://github.com/user-attachments/assets/2dad9dba-9fcd-4934-a494-1ab128755547)
 
 
 ### Colorized Clusters with Best K = 10
+
+After identifying the best K, I will create a **segmentation mask** using clustering. First I will convert the MUSICA-enhanced image to grayscale and flattens it into a list of pixel intensity values. I will then run `KMeans` clustering with 10 clusters. Each cluster represents a region with similar intensity. After fitting, it assigns a cluster label to every pixel.
+
+Then I will calculate the **average pixel intensity** for each cluster and sort them. The lowest-intensity cluster is assigned the color **black**, the highest gets **red**, and others get distinct colors in this intensity order:
+
+> **Black → Purple → Blue → Cyan → Light Blue → Green → Yellow → Pink → Orange → Red**
+
+The output is a **color-coded mask** where each region’s color corresponds to an intensity cluster. This step transforms raw grayscale intensity into **structured, interpretable regions**.
 
 ![download (71)](https://github.com/user-attachments/assets/c80ac188-738f-4cfd-8203-d42d6760bea3)
 
