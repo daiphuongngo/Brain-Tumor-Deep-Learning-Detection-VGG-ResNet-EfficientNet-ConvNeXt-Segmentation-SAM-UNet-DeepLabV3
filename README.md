@@ -196,6 +196,22 @@ Based on the plots of 7 images, the best K is 9. This is a consistent balancing 
 
 ![download (54)](https://github.com/user-attachments/assets/7964aff1-81c1-436f-9983-6376b837b88b)
 
+
+### Find Best K with Average Clustering Plots
+
+As plotting the 4 clustering plots for each image would be tedious, I will average the 4 metrics for the chose images to provide 1 set of clustering plots of them only.
+
+![download (69)](https://github.com/user-attachments/assets/2dad9dba-9fcd-4934-a494-1ab128755547)
+
+
+### Colorized Clusters with Best K = 10
+
+![download (71)](https://github.com/user-attachments/assets/c80ac188-738f-4cfd-8203-d42d6760bea3)
+
+![download (70)](https://github.com/user-attachments/assets/d5d316f1-4540-4220-b0e7-b47c7f63c284)
+
+![download (72)](https://github.com/user-attachments/assets/1c2573b6-9f67-47e6-aa29-e1fcc1a29a77)
+
 ## Denoising Diffusion Implicit Models
 
 This pipeline is a generative modeling approach that learns to generate realistic brain tumor MRI images by reversing a diffusion (noise) process. It has multiple real-world use cases in detection, segmentation and data augmentation.
