@@ -190,6 +190,26 @@ Now I will proceed with the MUSICA for MRIs with tumor(s).
 
 ### Find the best K with revised clustering plots
 
+For each image, I run KMeans clustering **for k values from 2 to 20**, and compute the following metrics for each k:
+
+#### a. **WCSS (Within-Cluster Sum of Squares)**
+- Measures how tightly packed the points are within each cluster.
+- Lower values are better, but always decrease as k increases (so not ideal alone for choosing k).
+
+#### b. **BCSS (Between-Cluster Sum of Squares)**
+- Measures the separation between clusters.
+- Higher values indicate better clustering.
+
+#### c. **Silhouette Score**
+- Measures how similar each point is to its own cluster vs. other clusters.
+- Values range from -1 (poor) to +1 (ideal); higher values are better.
+
+#### d. **Calinski-Harabasz Index**
+- Compares cluster dispersion between and within clusters.
+- Higher values indicate better clustering.
+
+These metrics give a **balanced view of clustering performance**, considering both cohesion and separation.
+
 ![download (39)](https://github.com/user-attachments/assets/bd30daed-fc7c-47e6-bb03-6945921885d0)
 
 Based on the **WCSS (Inertia)**, WCSS decreases significantly from k = 2 to k = 4, then tapers off, which is the elbow method suggesting k ≈ 4.
