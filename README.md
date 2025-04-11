@@ -26,7 +26,7 @@ For **Data Exploration**, I will try out the CDF and histogram distributions on 
 
 For **Image Preprocessing**, this phase serves 2 purposes of my 2 end goals:
 
-1/ Prepare images for binary classification:
+1/ Prepare images for binary classification: 
 
 I will apply different techniques for image cropping (background might be too wide and unnecessary), skull layer removal (fully or partially or none removed by **Morphological Snakes** and/or **Morphological Filtering** for largest contour detection and removal), depending on image quality and close-to-global techniques), contrast enhancement, sharpness adjustment, noise surpression in predefined order. 
 
