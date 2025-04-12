@@ -405,9 +405,16 @@ As can be noticed, all the masks are _valid_ masks for the point prompt I provid
 
 # References
 
-### **Medical Imaging, CAD, and AI**
+## References
 
-> **Pianykh, O.S.** (2024). *Computer-Aided Diagnosis: From Feature Detection to AI in Radiology*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, **Harvard University Medical School**.  
+
+#### Medical Imaging, CAD, and AI
+
+> **Hemanth, D. J., Anitha, J., & Pandian, J. A.** (2021). Brain tumor detection using hybrid deep learning techniques in MRI images. Scientific Reports, 11(1), 1-13. https://doi.org/10.1038/s41598-021-90428-8
+
+> **Hemanth, D. J., Anitha, J., & Pandian, J. A.** (2023). Brain tumor detection and classification using machine learning and deep learning algorithms: A systematic review. BioMed Research International, 2023, Article ID 10453020. https://doi.org/10.1155/2023/10453020
+
+> **Pianykh, O.S.** (2024). *Computer-Aided Diagnosis: From Feature Detection to AI in Radiology*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, Harvard Extension School.  
 > ➤ Key topics: CAD pipeline (feature extraction → classifier → validation), edge & line detection for fractures, convolution in LoG filters, multiscale resolution, PyRadiomics, CNNs for medical imaging.
 
 Use this reference to support:
@@ -420,9 +427,9 @@ Use this reference to support:
 
 ---
 
-### **Multiscale Image Enhancement & Multiscale Image Contrast Amplification (MUSICA)**
+#### Multiscale Image Enhancement & MUSICA
 
-> **Pianykh, O.S.** (2024). *Image Enhancement Techniques in Medical Imaging: From Denoising to CNNs*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, **Harvard University Medical School**.  
+> **Pianykh, O.S.** (2024). *Image Enhancement Techniques in Medical Imaging: From Denoising to CNNs*. Lecture slides, CSCI E-87: Big Data and Machine Learning in Healthcare Applications, Harvard Extension School.  
 > ➤ Key topics: noise vs edges, bilateral filtering, Gaussian pyramids, Laplacian pyramids, multiscale decomposition and synthesis, MUSICA-style amplification.
 
 Use this reference to support:
@@ -432,23 +439,9 @@ Use this reference to support:
 
 > “By decomposing an image into low- and high-frequency components, and rebalancing with detail amplification, MUSICA enhances the contrast and diagnostic utility of the image.” — *Pianykh (2024)*
 
-
 ---
 
-### **Clustering & Dimensionality Reduction**
-
-> Elston, S. F. (2024). *Introduction to Clustering Models – Part 1* [Lecture slides]. CSCI E-108: Data Mining, Discovery, and Exploration, **Harvard University Extension School**.  
-   - Topics: Unsupervised learning, K-Means clustering, distance and similarity metrics, cluster properties (compactness & separation), evaluation metrics (WCSS, BCSS, Silhouette score, Calinski-Harabasz index).
-
-> Elston, S. F. (2024). *Introduction to Clustering Models – Part 2* [Lecture slides]. CSCI E-108: Data Mining, Discovery, and Exploration, **Harvard University Extension School**.  
-   - Topics: Curse of dimensionality in clustering, hierarchical clustering, DBSCAN, OPTICS, affinity propagation, spectral clustering, and graph-based methods.
-
-> Elston, S. F. (2024). *Dimensionality Reduction – Part 1* [Lecture slides]. CSCI E-108: Data Mining, Discovery, and Exploration, Harvard University Extension School.  
-   - Topics: PCA, feature projection, manifold learning (e.g., UMAP), and visualization strategies for high-dimensional data clustering.
-
----
-
-### 🧪 **Image Segmentation & Morphological Techniques**
+#### **Image Segmentation & Morphological Techniques**
 1. **Morphological Snakes (Active Contour Models)**  
    *scikit-image team.*  
    _Morphological Snakes: Active contours without edges._  
@@ -464,9 +457,32 @@ Use this reference to support:
    _Denoising, sharpening and edge detection using kernel convolution._  
    https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html
 
+4. **DeepLabV3+ Semantic Segmentation**
+
+  *Keras Team.*
+
+  _Image segmentation with DeepLabV3+._
+
+  https://keras.io/examples/vision/deeplabv3_plus/
+
+5. **Fully Convolutional Network (FCN) for Semantic Segmentation**
+
+  *Keras Team.*
+
+  _Image segmentation using a fully convolutional network._
+
+  https://keras.io/examples/vision/fully_convolutional_network/
+
+6. **BASNet for Background Matting and Segmentation**
+
+  *Keras Team.*
+
+  _Background matting using BASNet._
+
+  https://keras.io/examples/vision/basnet_segmentation/
 ---
 
-### 🤖 **Deep Learning with Keras**
+#### **Deep Learning with Keras**
 
 4. **Segment Anything with SAM & Keras**  
    *Keras Team, 2024.*  
@@ -485,11 +501,12 @@ Use this reference to support:
 
 ---
 
-### 🧠🧬 **Medical Image Dataset**
+#### **Medical Image Dataset**
 
 7. **Brain MRI Dataset for Tumor Detection (Kaggle)**  
    *Navoneel Chakrabarty, Kaggle.*  
    _Brain MRI Images for Brain Tumor Detection (Yes/No classification)._  
    https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
+
 
 
