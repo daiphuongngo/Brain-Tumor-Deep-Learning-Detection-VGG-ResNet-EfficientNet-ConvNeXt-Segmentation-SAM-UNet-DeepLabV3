@@ -467,6 +467,8 @@ The output is a **color-coded mask** where each region’s color corresponds to 
 
 ![download (72)](https://github.com/user-attachments/assets/1c2573b6-9f67-47e6-aa29-e1fcc1a29a77)
 
+The outputs are a color-coded mask where each region's color corresponds to an intensity cluster. This step transforms raw grayscale intensity into structured, interpretable regions. Based on the above results, I can evaluate that with k = 4, the clustering is overly simplified and too generalized so it becomes harder to seprate subtle tumor regions from brain tissue as it mixes complex patterns in brain tissues and tumor. When increasing k to 9, it starts to makes more reasonable separation of pixel intensity of brain tissues and tumor regions. However, it might still merge subtle sub-regions of tumor or tissues. When increasing k to 9, there are finer granularity as each region is better isolated, including the sub tumor variations. Still, this is my current hypothesis whether the colorized clustered images will be able to support the interpretability for model training and prediction later on. The backbone of the datastream for training is still the MUSICA-enhanced greyscale MRIs from with tumor and with tumors subfolders.
+
 ## Denoising Diffusion Implicit Models
 
 This pipeline is a generative modeling approach that learns to generate realistic brain tumor MRI images by reversing a diffusion (noise) process. It has multiple real-world use cases in detection, segmentation and data augmentation.
