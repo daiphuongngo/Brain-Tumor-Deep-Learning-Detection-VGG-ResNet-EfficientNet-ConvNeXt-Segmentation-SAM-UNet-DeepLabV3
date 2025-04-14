@@ -530,7 +530,208 @@ KID measures the distributional similarity between generated images and real ima
 ---
 
 ## Detection (to be continued)
----
+
+
+### ResNet50 (initial test with 10 epochs)
+
+```
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ resnet50 (Functional)           │ (None, 7, 7, 2048)     │    23,587,712 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ global_average_pooling2d        │ (None, 2048)           │             0 │
+│ (GlobalAveragePooling2D)        │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense (Dense)                   │ (None, 256)            │       524,544 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 256)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 1)              │           257 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 24,112,513 (91.98 MB)
+ Trainable params: 524,801 (2.00 MB)
+ Non-trainable params: 23,587,712 (89.98 MB)
+/usr/local/lib/python3.11/dist-packages/keras/src/trainers/data_adapters/py_dataset_adapter.py:121: UserWarning: Your `PyDataset` class should call `super().__init__(**kwargs)` in its constructor. `**kwargs` can include `workers`, `use_multiprocessing`, `max_queue_size`. Do not pass these arguments to `fit()`, as they will be ignored.
+  self._warn_if_super_not_called()
+Epoch 1/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 43s 4s/step - accuracy: 0.5880 - loss: 1.2054 - val_accuracy: 0.8039 - val_loss: 0.3968
+Epoch 2/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 163ms/step - accuracy: 0.8014 - loss: 0.5054 - val_accuracy: 0.9020 - val_loss: 0.1936
+Epoch 3/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 178ms/step - accuracy: 0.8974 - loss: 0.2919 - val_accuracy: 0.9020 - val_loss: 0.2452
+Epoch 4/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 160ms/step - accuracy: 0.8760 - loss: 0.2825 - val_accuracy: 0.9216 - val_loss: 0.1546
+Epoch 5/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 162ms/step - accuracy: 0.9222 - loss: 0.1915 - val_accuracy: 0.9216 - val_loss: 0.2370
+Epoch 6/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 158ms/step - accuracy: 0.9411 - loss: 0.2077 - val_accuracy: 0.9216 - val_loss: 0.2031
+Epoch 7/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 161ms/step - accuracy: 0.9291 - loss: 0.1663 - val_accuracy: 0.9216 - val_loss: 0.1832
+Epoch 8/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 153ms/step - accuracy: 0.9403 - loss: 0.1443 - val_accuracy: 0.9412 - val_loss: 0.1530
+Epoch 9/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 163ms/step - accuracy: 0.9863 - loss: 0.0751 - val_accuracy: 0.9412 - val_loss: 0.1658
+Epoch 10/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 182ms/step - accuracy: 0.9901 - loss: 0.0749 - val_accuracy: 0.9216 - val_loss: 0.1543
+```
+
+![download (55)](https://github.com/user-attachments/assets/7ede18c8-7046-42d3-9e12-e57530028064)
+
+![download (56)](https://github.com/user-attachments/assets/cd21b2cc-aa72-4d80-b7e1-dfc1cc5568ac)
+
+
+### EfficientNetV2L (initial test with 20 epochs)
+
+```
+Model: "sequential_1"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ efficientnetv2-l (Functional)   │ (None, 10, 10, 1280)   │   117,746,848 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ global_average_pooling2d_1      │ (None, 1280)           │             0 │
+│ (GlobalAveragePooling2D)        │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_2 (Dense)                 │ (None, 256)            │       327,936 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_1 (Dropout)             │ (None, 256)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_3 (Dense)                 │ (None, 1)              │           257 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 118,075,041 (450.42 MB)
+ Trainable params: 328,193 (1.25 MB)
+ Non-trainable params: 117,746,848 (449.17 MB)
+
+Epoch 1/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 209s 17s/step - accuracy: 0.4944 - loss: 0.7149 - val_accuracy: 0.6667 - val_loss: 0.6336
+Epoch 2/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 869ms/step - accuracy: 0.6148 - loss: 0.6604 - val_accuracy: 0.6471 - val_loss: 0.5832
+Epoch 3/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 950ms/step - accuracy: 0.7113 - loss: 0.5747 - val_accuracy: 0.6863 - val_loss: 0.5738
+Epoch 4/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 849ms/step - accuracy: 0.7207 - loss: 0.5724 - val_accuracy: 0.7059 - val_loss: 0.5405
+Epoch 5/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 877ms/step - accuracy: 0.7270 - loss: 0.5381 - val_accuracy: 0.7059 - val_loss: 0.5365
+Epoch 6/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 861ms/step - accuracy: 0.7605 - loss: 0.5045 - val_accuracy: 0.6863 - val_loss: 0.5297
+Epoch 7/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 867ms/step - accuracy: 0.7999 - loss: 0.4878 - val_accuracy: 0.6667 - val_loss: 0.5135
+Epoch 8/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 948ms/step - accuracy: 0.7605 - loss: 0.4920 - val_accuracy: 0.7451 - val_loss: 0.4829
+Epoch 9/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 876ms/step - accuracy: 0.8005 - loss: 0.4526 - val_accuracy: 0.7647 - val_loss: 0.4693
+Epoch 10/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 866ms/step - accuracy: 0.7923 - loss: 0.4734 - val_accuracy: 0.7647 - val_loss: 0.4662
+Epoch 11/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 878ms/step - accuracy: 0.8028 - loss: 0.4228 - val_accuracy: 0.7647 - val_loss: 0.4596
+Epoch 12/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 871ms/step - accuracy: 0.8170 - loss: 0.4092 - val_accuracy: 0.7647 - val_loss: 0.4536
+Epoch 13/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 947ms/step - accuracy: 0.7970 - loss: 0.4020 - val_accuracy: 0.7647 - val_loss: 0.4385
+Epoch 14/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 848ms/step - accuracy: 0.8466 - loss: 0.4057 - val_accuracy: 0.8235 - val_loss: 0.4320
+Epoch 15/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 780ms/step - accuracy: 0.8466 - loss: 0.4097 - val_accuracy: 0.8235 - val_loss: 0.4398
+Epoch 16/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 918ms/step - accuracy: 0.7961 - loss: 0.4263 - val_accuracy: 0.8627 - val_loss: 0.3862
+Epoch 17/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 883ms/step - accuracy: 0.8566 - loss: 0.3769 - val_accuracy: 0.8431 - val_loss: 0.3809
+Epoch 18/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 856ms/step - accuracy: 0.8111 - loss: 0.3892 - val_accuracy: 0.8627 - val_loss: 0.3855
+Epoch 19/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 827ms/step - accuracy: 0.8027 - loss: 0.3922 - val_accuracy: 0.8235 - val_loss: 0.3963
+Epoch 20/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 839ms/step - accuracy: 0.8794 - loss: 0.3494 - val_accuracy: 0.8824 - val_loss: 0.3652
+Epoch 1/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 475s 29s/step - accuracy: 0.6904 - loss: 0.6123 - val_accuracy: 0.8235 - val_loss: 0.4042
+Epoch 2/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 784ms/step - accuracy: 0.7314 - loss: 0.5867 - val_accuracy: 0.8431 - val_loss: 0.4646
+Epoch 3/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 752ms/step - accuracy: 0.8559 - loss: 0.4764 - val_accuracy: 0.8039 - val_loss: 0.4711
+Epoch 4/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 770ms/step - accuracy: 0.8466 - loss: 0.4569 - val_accuracy: 0.8235 - val_loss: 0.4267
+Epoch 5/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 769ms/step - accuracy: 0.8791 - loss: 0.4253 - val_accuracy: 0.8431 - val_loss: 0.4566
+Epoch 6/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 779ms/step - accuracy: 0.8790 - loss: 0.4065 - val_accuracy: 0.8627 - val_loss: 0.4277
+```
+![download (57)](https://github.com/user-attachments/assets/0ba13af8-ed10-4a1c-ad28-a9493592f8bd)
+
+![download (58)](https://github.com/user-attachments/assets/c2de14dd-e025-40f0-991f-7dcc3946a85b)
+
+
+![download (59)](https://github.com/user-attachments/assets/df67b90e-c89f-4cca-a534-41b6d4e962ce)
+
+![download (73)](https://github.com/user-attachments/assets/aeaf7a70-53d1-474f-aaeb-1cfd1b4a66a2)
+
+
+### ConvNeXt Base (initial test with 20 epochs)
+
+```
+Epoch 1/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 63s 5s/step - accuracy: 0.5348 - loss: 0.8034 - val_accuracy: 0.7647 - val_loss: 0.5315
+Epoch 2/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 64ms/step - accuracy: 0.6786 - loss: 0.5861 - val_accuracy: 0.7843 - val_loss: 0.4466
+Epoch 3/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 59ms/step - accuracy: 0.7181 - loss: 0.5227 - val_accuracy: 0.8627 - val_loss: 0.3961
+Epoch 4/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 63ms/step - accuracy: 0.7784 - loss: 0.4501 - val_accuracy: 0.9020 - val_loss: 0.3522
+Epoch 5/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 65ms/step - accuracy: 0.8601 - loss: 0.3578 - val_accuracy: 0.9020 - val_loss: 0.3243
+Epoch 6/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 67ms/step - accuracy: 0.8495 - loss: 0.3430 - val_accuracy: 0.9608 - val_loss: 0.3029
+Epoch 7/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 58ms/step - accuracy: 0.8509 - loss: 0.3380 - val_accuracy: 0.9608 - val_loss: 0.2873
+Epoch 8/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 55ms/step - accuracy: 0.8426 - loss: 0.3335 - val_accuracy: 0.9412 - val_loss: 0.2744
+Epoch 9/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.8925 - loss: 0.2758 - val_accuracy: 0.9412 - val_loss: 0.2624
+Epoch 10/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.9163 - loss: 0.2596 - val_accuracy: 0.9412 - val_loss: 0.2565
+Epoch 11/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 62ms/step - accuracy: 0.8917 - loss: 0.2690 - val_accuracy: 0.9412 - val_loss: 0.2488
+Epoch 12/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 58ms/step - accuracy: 0.9224 - loss: 0.2534 - val_accuracy: 0.9412 - val_loss: 0.2426
+Epoch 13/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 61ms/step - accuracy: 0.9049 - loss: 0.2505 - val_accuracy: 0.9412 - val_loss: 0.2448
+Epoch 14/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 53ms/step - accuracy: 0.9216 - loss: 0.2375 - val_accuracy: 0.9412 - val_loss: 0.2355
+Epoch 15/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 54ms/step - accuracy: 0.9324 - loss: 0.2117 - val_accuracy: 0.9412 - val_loss: 0.2334
+Epoch 16/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.9153 - loss: 0.2043 - val_accuracy: 0.9412 - val_loss: 0.2319
+Epoch 17/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 54ms/step - accuracy: 0.9352 - loss: 0.1994 - val_accuracy: 0.9412 - val_loss: 0.2237
+Epoch 18/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 58ms/step - accuracy: 0.9247 - loss: 0.2037 - val_accuracy: 0.9412 - val_loss: 0.2205
+Epoch 19/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 55ms/step - accuracy: 0.9246 - loss: 0.2055 - val_accuracy: 0.9412 - val_loss: 0.2168
+Epoch 20/20
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.9257 - loss: 0.1944 - val_accuracy: 0.9412 - val_loss: 0.2141
+Epoch 1/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 132s 7s/step - accuracy: 0.9478 - loss: 0.1509 - val_accuracy: 0.9412 - val_loss: 0.1528
+Epoch 2/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 293ms/step - accuracy: 0.9612 - loss: 0.1299 - val_accuracy: 0.9804 - val_loss: 0.1163
+Epoch 3/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 290ms/step - accuracy: 0.9814 - loss: 0.0645 - val_accuracy: 0.9608 - val_loss: 0.1122
+Epoch 4/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 291ms/step - accuracy: 0.9892 - loss: 0.0441 - val_accuracy: 0.9608 - val_loss: 0.1021
+Epoch 5/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 291ms/step - accuracy: 1.0000 - loss: 0.0157 - val_accuracy: 0.9608 - val_loss: 0.0945
+Epoch 6/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 292ms/step - accuracy: 1.0000 - loss: 0.0081 - val_accuracy: 0.9608 - val_loss: 0.0864
+Epoch 7/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 287ms/step - accuracy: 1.0000 - loss: 0.0084 - val_accuracy: 0.9608 - val_loss: 0.0934
+Epoch 8/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 289ms/step - accuracy: 1.0000 - loss: 0.0041 - val_accuracy: 0.9412 - val_loss: 0.1016
+Epoch 9/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 289ms/step - accuracy: 1.0000 - loss: 0.0037 - val_accuracy: 0.9412 - val_loss: 0.1033
+Epoch 10/10
+7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 288ms/step - accuracy: 1.0000 - loss: 0.0028 - val_accuracy: 0.9412 - val_loss: 0.1015
+```
+![download (74)](https://github.com/user-attachments/assets/c6b7dc92-60da-4a57-a679-ce4fbeb59bc9)
+
 
 ## Segmentation (to be continued)
 
