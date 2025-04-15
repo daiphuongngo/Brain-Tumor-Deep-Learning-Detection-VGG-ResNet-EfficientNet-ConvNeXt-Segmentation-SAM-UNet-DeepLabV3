@@ -580,6 +580,13 @@ Epoch 10/10
 
 ![download (56)](https://github.com/user-attachments/assets/cd21b2cc-aa72-4d80-b7e1-dfc1cc5568ac)
 
+### ResNet50 (2nd test with 100 epochs)
+
+The ResNet50 model achieves very low training loss and high accuracy quickly but fails to improve validation metrics after 15–20 epochs. Also, validation loss increases, indicating memorization over learning, probably because of high model capacity, no regularization like dropout, weight decay and too gressive learning rate as well as lack of data and poor data augmentation at this stage.
+
+![Resnet with 100 epochs plot 1](https://github.com/user-attachments/assets/c78a1b07-2853-4e6e-b6a5-66324afa7f45)
+
+![Resnet with 100 epochs plot 2](https://github.com/user-attachments/assets/5b74b586-cc09-419b-85a5-f2331cdc2011)
 
 ### EfficientNetV2L (initial test with 20 epochs)
 
@@ -731,6 +738,22 @@ Epoch 10/10
 7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 288ms/step - accuracy: 1.0000 - loss: 0.0028 - val_accuracy: 0.9412 - val_loss: 0.1015
 ```
 ![download (74)](https://github.com/user-attachments/assets/c6b7dc92-60da-4a57-a679-ce4fbeb59bc9)
+
+### ConvNeXt Base (2nd test with 100 epochs)
+
+![Convnext with 100 epochs](https://github.com/user-attachments/assets/0a89e2f9-7a3e-4b07-861f-e016febf92c8)
+
+The ConvNeXtBase experiences that the Train Accuracy is lightly lower but stable (~98–99%) and the Validation Accuracy is more stable at high 92–94% range while the Train Loss shows gradual and smoother decrease, and the Validation Loss illustrates a smooth trend with lower overfitting symptoms. These behaviors indicate a better generalization and less variance, therefore, the risk of overfitting is moderate to low as the Convergence Stability is evidenced with more consistent learning. However, before optimizing the model, I will need to apply these strategies for all models such as:
+
+- Data Augmentation simulates larger dataset and adds regularization.
+  
+- EarlyStopping	prevents unnecessary epochs once validation loss or accuracy stagnates.
+  
+- Learning Rate Scheduler	assists model fine-tune without overshooting minima, such as Exponential Decay.
+
+- Freezing Base Layers avoids destroying pretrained features too early.
+  
+- Reducing Learning Rate helps especially in the second half of training.
 
 
 ## Segmentation (to be continued)
