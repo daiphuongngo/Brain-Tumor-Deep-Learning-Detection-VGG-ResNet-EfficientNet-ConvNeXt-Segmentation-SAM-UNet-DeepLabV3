@@ -22,7 +22,7 @@ Tumors in brain is the most dangerous kinds of tumors worldwide. Glioma and Meni
 
 ## First Words
 
-In my Brain Tumor Detection project, I chose this dataset from Kaggle with 115 brain imges with tumor and 98 without (clearly showing imbalance):
+In my Brain Tumor Detection project, I chose this dataset from Kaggle with 115 brain imges with tumor and 98 without (clearly showing imbalance) and some of those without tumor do actually have tumor, which createa even more imbalance that I will explain and resolve later:
 
 https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
 
