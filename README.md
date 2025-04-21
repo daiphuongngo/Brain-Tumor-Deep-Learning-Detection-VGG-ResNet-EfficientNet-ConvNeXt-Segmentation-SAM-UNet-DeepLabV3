@@ -811,6 +811,14 @@ Let's post-process the masks and visualize them with their IoU scores:
 
 As can be noticed, all the masks are _valid_ masks for the point prompt I provided.
 
+### Extract the predicted mask into Ground Truth Image for later Segmentation Pipeline with DeepLab V3+
+
+![download (77)](https://github.com/user-attachments/assets/716dda9b-637e-4ca2-bb2f-61fc4d00e39f)
+
+![download (76)](https://github.com/user-attachments/assets/9af4375e-a23d-448b-ae15-0a3f904640a6)
+
+![download (78)](https://github.com/user-attachments/assets/7ea9e5e5-c914-4a7a-810d-5659472c86d4)
+
 --- 
 
 # References
