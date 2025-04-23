@@ -819,7 +819,16 @@ As can be noticed, all the masks are _valid_ masks for the point prompt I provid
 
 ![download (78)](https://github.com/user-attachments/assets/7ea9e5e5-c914-4a7a-810d-5659472c86d4)
 
+
+### Apply SAM's points on MRIs with tumors
+
+![download (80)](https://github.com/user-attachments/assets/bc3a4566-e933-4a70-853f-077e789e132b)
+
+After supervising the SAM's application of pinpointing the tumors on the original images, I will show the masks on those tumors to observe the SAM's predicted masks.
+
 --- 
+
+
 
 # References
 
