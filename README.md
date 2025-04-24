@@ -826,6 +826,15 @@ As can be noticed, all the masks are _valid_ masks for the point prompt I provid
 
 After supervising the SAM's application of pinpointing the tumors on the original images, I will show the masks on those tumors to observe the SAM's predicted masks.
 
+### Preparing Images in Tensorflow array as original and masked images for Segmentation Pipeline:
+
+![download (84)](https://github.com/user-attachments/assets/6670fc34-92cc-45fa-a2a8-52b76a774806)
+
+![download (85)](https://github.com/user-attachments/assets/ceb9e870-b348-4210-8c13-641ab2cfe7d4)
+
+![download (86)](https://github.com/user-attachments/assets/906c1ed0-8265-4085-8f50-330a84ac7554)
+
+
 --- 
 
 
