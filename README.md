@@ -834,6 +834,25 @@ After supervising the SAM's application of pinpointing the tumors on the origina
 
 ![download (86)](https://github.com/user-attachments/assets/906c1ed0-8265-4085-8f50-330a84ac7554)
 
+### DeepLab V3+ Diagram
+
+![deeplabv3_plus_diagram mask](https://github.com/user-attachments/assets/1fd879c8-5b20-474d-a396-5d9c0af46665)
+
+### DeepLab V3+ Results
+
+![download - 2025-04-24T232702 105](https://github.com/user-attachments/assets/142159af-a3bf-4b30-b174-b15e518c4308)
+
+![download - 2025-04-24T232654 103](https://github.com/user-attachments/assets/89ab7a0f-643e-4b88-9ec8-4f7af40e913a)
+
+![download (100)](https://github.com/user-attachments/assets/f901190c-7bcb-4a59-be25-491cf75f44c1)
+
+![download (99)](https://github.com/user-attachments/assets/0853ff46-afbd-461c-a712-4afed659d40b)
+
+![download - 2025-04-24T234231 574](https://github.com/user-attachments/assets/ebef64ac-6560-4a9f-8acf-96c6fb65aad8)
+
+Looking at the metric performance, the model I have developed has very high accuracy at ~99.8%, steady IoU improvement at ~97.2%, low and consistent training & validation loss, relatively stable validation performance, although it iss starting to plateau around epoch 8–11. When reviewing the Plots, the Loss sees a slight upward trend in val_loss, which is possible early signs of overfitting. The Accuracy shows very high and stable rates so there is no collapse in performance so far. The IoU shows slight fuctuation but itend to be good generally, showcasing that th emodel is segmenting well. However, I will still need to tackle the imbalance, overfitting risks and lack of data training.
+
+
 ### DeepLab V3+ Pipeline
 
 ```
