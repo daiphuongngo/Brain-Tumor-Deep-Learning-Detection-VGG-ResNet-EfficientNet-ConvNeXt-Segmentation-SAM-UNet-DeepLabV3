@@ -755,6 +755,135 @@ The ConvNeXtBase experiences that the Train Accuracy is lightly lower but stable
   
 - Reducing Learning Rate helps especially in the second half of training.
 
+### ConvNeXt Base (after Augmentation, slow Learning Rate & more Weight Decay)
+
+```
+Found 7851 files belonging to 2 classes.
+Using 6281 files for training.
+Found 7851 files belonging to 2 classes.
+Using 1570 files for validation.
+Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/convnext/convnext_base_notop.h5
+350926856/350926856 ━━━━━━━━━━━━━━━━━━━━ 1s 0us/step
+Model: "functional_5"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ input_layer_6 (InputLayer)      │ (None, 224, 224, 3)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ convnext_base (Functional)      │ (None, 1024)           │    87,566,464 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_3 (Dense)                 │ (None, 1024)           │     1,049,600 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization_3           │ (None, 1024)           │         4,096 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_3 (Dropout)             │ (None, 1024)           │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_4 (Dense)                 │ (None, 512)            │       524,800 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization_4           │ (None, 512)            │         2,048 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_4 (Dropout)             │ (None, 512)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_5 (Dense)                 │ (None, 128)            │        65,664 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization_5           │ (None, 128)            │           512 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_5 (Dropout)             │ (None, 128)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_6 (Dense)                 │ (None, 1)              │           129 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 89,213,313 (340.32 MB)
+ Trainable params: 1,643,521 (6.27 MB)
+ Non-trainable params: 87,569,792 (334.05 MB)
+Epoch 1/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 90s 248ms/step - accuracy: 0.9669 - loss: 0.0738 - val_accuracy: 1.0000 - val_loss: 0.0031
+Epoch 2/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 0.0021 - val_accuracy: 1.0000 - val_loss: 2.2823e-04
+Epoch 3/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 0.0016 - val_accuracy: 1.0000 - val_loss: 7.7908e-05
+Epoch 4/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 9.4109e-04 - val_accuracy: 1.0000 - val_loss: 5.3562e-05
+Epoch 5/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 5.4786e-04 - val_accuracy: 1.0000 - val_loss: 4.4003e-05
+Epoch 6/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 2.9322e-04 - val_accuracy: 1.0000 - val_loss: 3.0879e-05
+Epoch 7/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 2.9375e-04 - val_accuracy: 1.0000 - val_loss: 2.8011e-05
+Epoch 8/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 8.4157e-04 - val_accuracy: 1.0000 - val_loss: 2.4395e-05
+Epoch 9/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 3.7109e-04 - val_accuracy: 1.0000 - val_loss: 1.9120e-05
+Epoch 10/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.9372e-04 - val_accuracy: 1.0000 - val_loss: 1.5587e-05
+Epoch 11/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 3.3578e-04 - val_accuracy: 1.0000 - val_loss: 1.2027e-05
+Epoch 12/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.2179e-04 - val_accuracy: 1.0000 - val_loss: 1.0768e-05
+Epoch 13/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 2.0055e-04 - val_accuracy: 1.0000 - val_loss: 9.0574e-06
+Epoch 14/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 48ms/step - accuracy: 1.0000 - loss: 5.4160e-04 - val_accuracy: 1.0000 - val_loss: 9.4908e-06
+Epoch 15/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.2992e-04 - val_accuracy: 1.0000 - val_loss: 6.9158e-06
+Epoch 16/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.7435e-04 - val_accuracy: 1.0000 - val_loss: 5.9949e-06
+Epoch 17/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.0046e-04 - val_accuracy: 1.0000 - val_loss: 5.4176e-06
+Epoch 18/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 9.9402e-05 - val_accuracy: 1.0000 - val_loss: 4.7844e-06
+Epoch 19/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.0763e-04 - val_accuracy: 1.0000 - val_loss: 4.1637e-06
+Epoch 20/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.5559e-04 - val_accuracy: 1.0000 - val_loss: 3.6799e-06
+Epoch 21/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.1532e-04 - val_accuracy: 1.0000 - val_loss: 3.0026e-06
+Epoch 22/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 48ms/step - accuracy: 1.0000 - loss: 4.3446e-04 - val_accuracy: 1.0000 - val_loss: 4.1232e-06
+Epoch 23/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 6.7714e-05 - val_accuracy: 1.0000 - val_loss: 2.9239e-06
+Epoch 24/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 51ms/step - accuracy: 1.0000 - loss: 5.6252e-05 - val_accuracy: 1.0000 - val_loss: 2.8457e-06
+Epoch 25/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 8.4966e-05 - val_accuracy: 1.0000 - val_loss: 2.2999e-06
+Epoch 26/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 8.7809e-05 - val_accuracy: 1.0000 - val_loss: 1.8451e-06
+Epoch 27/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 9s 48ms/step - accuracy: 1.0000 - loss: 4.4246e-05 - val_accuracy: 1.0000 - val_loss: 1.7340e-06
+Epoch 28/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 48ms/step - accuracy: 1.0000 - loss: 1.1607e-04 - val_accuracy: 1.0000 - val_loss: 2.5378e-06
+Epoch 29/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.0646e-04 - val_accuracy: 1.0000 - val_loss: 1.7598e-06
+Epoch 30/30
+197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 5.5563e-05 - val_accuracy: 1.0000 - val_loss: 1.4175e-06
+Epoch 1/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 202s 551ms/step - accuracy: 1.0000 - loss: 4.1610e-05 - val_accuracy: 1.0000 - val_loss: 5.5411e-07
+Epoch 2/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 3.0005e-05 - val_accuracy: 1.0000 - val_loss: 9.0466e-07
+Epoch 3/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 3.3881e-05 - val_accuracy: 1.0000 - val_loss: 4.3468e-07
+Epoch 4/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 1.8562e-05 - val_accuracy: 1.0000 - val_loss: 3.8294e-07
+Epoch 5/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 1.9135e-05 - val_accuracy: 1.0000 - val_loss: 6.3792e-07
+Epoch 6/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 2.6032e-05 - val_accuracy: 1.0000 - val_loss: 1.6446e-06
+Epoch 7/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 2.5824e-05 - val_accuracy: 1.0000 - val_loss: 8.6545e-07
+Epoch 8/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 2.4534e-05 - val_accuracy: 1.0000 - val_loss: 3.2436e-07
+Epoch 9/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 1.4336e-05 - val_accuracy: 1.0000 - val_loss: 2.9532e-07
+Epoch 10/10
+197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 1.7908e-05 - val_accuracy: 1.0000 - val_loss: 5.1941e-07
+50/50 ━━━━━━━━━━━━━━━━━━━━ 18s 244ms/step
+```
+
+![download (22)](https://github.com/user-attachments/assets/01e3da85-52f0-4213-a61c-daf5e090c389)
+
+![download (9)](https://github.com/user-attachments/assets/e7726778-a60e-4fd2-a7f7-e9d9fcaa6890)
 
 ## Segmentation (to be continued)
 
