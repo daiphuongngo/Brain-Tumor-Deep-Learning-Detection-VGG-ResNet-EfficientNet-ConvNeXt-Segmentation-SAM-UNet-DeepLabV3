@@ -967,7 +967,13 @@ After supervising the SAM's application of pinpointing the tumors on the origina
 
 ![deeplabv3_plus_diagram mask](https://github.com/user-attachments/assets/1fd879c8-5b20-474d-a396-5d9c0af46665)
 
-### DeepLab V3+ Results
+### DeepLab V3+ Results with normal learning rate
+
+![download (24)](https://github.com/user-attachments/assets/3b13e24e-9d25-450d-b66a-126aa3b7cd41)
+
+![download (23)](https://github.com/user-attachments/assets/4fbc060e-96e9-4e6d-9412-8e126e6b45a5)
+
+### DeepLab V3+ Results with slow learning rate and low weight decay to optimize efficiency
 
 ![download - 2025-04-24T232702 105](https://github.com/user-attachments/assets/142159af-a3bf-4b30-b174-b15e518c4308)
 
