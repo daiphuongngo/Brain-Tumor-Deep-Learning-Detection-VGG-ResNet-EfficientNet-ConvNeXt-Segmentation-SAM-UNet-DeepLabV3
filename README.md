@@ -526,55 +526,12 @@ Both curves show a sharp decrease in the first 100–200 epochs, then taper and 
 
 KID measures the distributional similarity between generated images and real images. The KID metric fluctuates heavily between epochs, staying roughly in the range of 1.66 to 1.76. The fluctuations suggest that while noise and image reconstruction improve, distribution matching is noisy, likely due to the given small validation set, high variance in InceptionV3 feature space and/or still imperfect denoising leading to unrealistic artifacts.
 
-# Deep Learning (to be continued)
+# Deep Learning Pipelines
 ---
 
-## Detection (to be continued)
-
+## CLASSIFICATION
 
 ### ResNet50 (initial test with 10 epochs)
-
-```
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ resnet50 (Functional)           │ (None, 7, 7, 2048)     │    23,587,712 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ global_average_pooling2d        │ (None, 2048)           │             0 │
-│ (GlobalAveragePooling2D)        │                        │               │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense (Dense)                   │ (None, 256)            │       524,544 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout (Dropout)               │ (None, 256)            │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_1 (Dense)                 │ (None, 1)              │           257 │
-└─────────────────────────────────┴────────────────────────┴───────────────┘
- Total params: 24,112,513 (91.98 MB)
- Trainable params: 524,801 (2.00 MB)
- Non-trainable params: 23,587,712 (89.98 MB)
-/usr/local/lib/python3.11/dist-packages/keras/src/trainers/data_adapters/py_dataset_adapter.py:121: UserWarning: Your `PyDataset` class should call `super().__init__(**kwargs)` in its constructor. `**kwargs` can include `workers`, `use_multiprocessing`, `max_queue_size`. Do not pass these arguments to `fit()`, as they will be ignored.
-  self._warn_if_super_not_called()
-Epoch 1/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 43s 4s/step - accuracy: 0.5880 - loss: 1.2054 - val_accuracy: 0.8039 - val_loss: 0.3968
-Epoch 2/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 163ms/step - accuracy: 0.8014 - loss: 0.5054 - val_accuracy: 0.9020 - val_loss: 0.1936
-Epoch 3/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 178ms/step - accuracy: 0.8974 - loss: 0.2919 - val_accuracy: 0.9020 - val_loss: 0.2452
-Epoch 4/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 160ms/step - accuracy: 0.8760 - loss: 0.2825 - val_accuracy: 0.9216 - val_loss: 0.1546
-Epoch 5/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 162ms/step - accuracy: 0.9222 - loss: 0.1915 - val_accuracy: 0.9216 - val_loss: 0.2370
-Epoch 6/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 158ms/step - accuracy: 0.9411 - loss: 0.2077 - val_accuracy: 0.9216 - val_loss: 0.2031
-Epoch 7/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 161ms/step - accuracy: 0.9291 - loss: 0.1663 - val_accuracy: 0.9216 - val_loss: 0.1832
-Epoch 8/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 153ms/step - accuracy: 0.9403 - loss: 0.1443 - val_accuracy: 0.9412 - val_loss: 0.1530
-Epoch 9/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 163ms/step - accuracy: 0.9863 - loss: 0.0751 - val_accuracy: 0.9412 - val_loss: 0.1658
-Epoch 10/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 1s 182ms/step - accuracy: 0.9901 - loss: 0.0749 - val_accuracy: 0.9216 - val_loss: 0.1543
-```
 
 ![download (55)](https://github.com/user-attachments/assets/7ede18c8-7046-42d3-9e12-e57530028064)
 
@@ -590,79 +547,6 @@ The ResNet50 model achieves very low training loss and high accuracy quickly but
 
 ### EfficientNetV2L (initial test with 20 epochs)
 
-```
-Model: "sequential_1"
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ efficientnetv2-l (Functional)   │ (None, 10, 10, 1280)   │   117,746,848 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ global_average_pooling2d_1      │ (None, 1280)           │             0 │
-│ (GlobalAveragePooling2D)        │                        │               │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_2 (Dense)                 │ (None, 256)            │       327,936 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout_1 (Dropout)             │ (None, 256)            │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_3 (Dense)                 │ (None, 1)              │           257 │
-└─────────────────────────────────┴────────────────────────┴───────────────┘
- Total params: 118,075,041 (450.42 MB)
- Trainable params: 328,193 (1.25 MB)
- Non-trainable params: 117,746,848 (449.17 MB)
-
-Epoch 1/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 209s 17s/step - accuracy: 0.4944 - loss: 0.7149 - val_accuracy: 0.6667 - val_loss: 0.6336
-Epoch 2/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 869ms/step - accuracy: 0.6148 - loss: 0.6604 - val_accuracy: 0.6471 - val_loss: 0.5832
-Epoch 3/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 950ms/step - accuracy: 0.7113 - loss: 0.5747 - val_accuracy: 0.6863 - val_loss: 0.5738
-Epoch 4/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 849ms/step - accuracy: 0.7207 - loss: 0.5724 - val_accuracy: 0.7059 - val_loss: 0.5405
-Epoch 5/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 877ms/step - accuracy: 0.7270 - loss: 0.5381 - val_accuracy: 0.7059 - val_loss: 0.5365
-Epoch 6/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 861ms/step - accuracy: 0.7605 - loss: 0.5045 - val_accuracy: 0.6863 - val_loss: 0.5297
-Epoch 7/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 867ms/step - accuracy: 0.7999 - loss: 0.4878 - val_accuracy: 0.6667 - val_loss: 0.5135
-Epoch 8/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 948ms/step - accuracy: 0.7605 - loss: 0.4920 - val_accuracy: 0.7451 - val_loss: 0.4829
-Epoch 9/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 876ms/step - accuracy: 0.8005 - loss: 0.4526 - val_accuracy: 0.7647 - val_loss: 0.4693
-Epoch 10/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 866ms/step - accuracy: 0.7923 - loss: 0.4734 - val_accuracy: 0.7647 - val_loss: 0.4662
-Epoch 11/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 878ms/step - accuracy: 0.8028 - loss: 0.4228 - val_accuracy: 0.7647 - val_loss: 0.4596
-Epoch 12/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 871ms/step - accuracy: 0.8170 - loss: 0.4092 - val_accuracy: 0.7647 - val_loss: 0.4536
-Epoch 13/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 947ms/step - accuracy: 0.7970 - loss: 0.4020 - val_accuracy: 0.7647 - val_loss: 0.4385
-Epoch 14/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 848ms/step - accuracy: 0.8466 - loss: 0.4057 - val_accuracy: 0.8235 - val_loss: 0.4320
-Epoch 15/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 780ms/step - accuracy: 0.8466 - loss: 0.4097 - val_accuracy: 0.8235 - val_loss: 0.4398
-Epoch 16/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 918ms/step - accuracy: 0.7961 - loss: 0.4263 - val_accuracy: 0.8627 - val_loss: 0.3862
-Epoch 17/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 883ms/step - accuracy: 0.8566 - loss: 0.3769 - val_accuracy: 0.8431 - val_loss: 0.3809
-Epoch 18/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 856ms/step - accuracy: 0.8111 - loss: 0.3892 - val_accuracy: 0.8627 - val_loss: 0.3855
-Epoch 19/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 827ms/step - accuracy: 0.8027 - loss: 0.3922 - val_accuracy: 0.8235 - val_loss: 0.3963
-Epoch 20/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 839ms/step - accuracy: 0.8794 - loss: 0.3494 - val_accuracy: 0.8824 - val_loss: 0.3652
-Epoch 1/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 475s 29s/step - accuracy: 0.6904 - loss: 0.6123 - val_accuracy: 0.8235 - val_loss: 0.4042
-Epoch 2/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 784ms/step - accuracy: 0.7314 - loss: 0.5867 - val_accuracy: 0.8431 - val_loss: 0.4646
-Epoch 3/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 5s 752ms/step - accuracy: 0.8559 - loss: 0.4764 - val_accuracy: 0.8039 - val_loss: 0.4711
-Epoch 4/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 770ms/step - accuracy: 0.8466 - loss: 0.4569 - val_accuracy: 0.8235 - val_loss: 0.4267
-Epoch 5/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 769ms/step - accuracy: 0.8791 - loss: 0.4253 - val_accuracy: 0.8431 - val_loss: 0.4566
-Epoch 6/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 6s 779ms/step - accuracy: 0.8790 - loss: 0.4065 - val_accuracy: 0.8627 - val_loss: 0.4277
-```
 ![download (57)](https://github.com/user-attachments/assets/0ba13af8-ed10-4a1c-ad28-a9493592f8bd)
 
 ![download (58)](https://github.com/user-attachments/assets/c2de14dd-e025-40f0-991f-7dcc3946a85b)
@@ -675,68 +559,6 @@ Epoch 6/10
 
 ### ConvNeXt Base (initial test with 20 epochs)
 
-```
-Epoch 1/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 63s 5s/step - accuracy: 0.5348 - loss: 0.8034 - val_accuracy: 0.7647 - val_loss: 0.5315
-Epoch 2/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 64ms/step - accuracy: 0.6786 - loss: 0.5861 - val_accuracy: 0.7843 - val_loss: 0.4466
-Epoch 3/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 59ms/step - accuracy: 0.7181 - loss: 0.5227 - val_accuracy: 0.8627 - val_loss: 0.3961
-Epoch 4/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 63ms/step - accuracy: 0.7784 - loss: 0.4501 - val_accuracy: 0.9020 - val_loss: 0.3522
-Epoch 5/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 65ms/step - accuracy: 0.8601 - loss: 0.3578 - val_accuracy: 0.9020 - val_loss: 0.3243
-Epoch 6/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 67ms/step - accuracy: 0.8495 - loss: 0.3430 - val_accuracy: 0.9608 - val_loss: 0.3029
-Epoch 7/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 58ms/step - accuracy: 0.8509 - loss: 0.3380 - val_accuracy: 0.9608 - val_loss: 0.2873
-Epoch 8/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 55ms/step - accuracy: 0.8426 - loss: 0.3335 - val_accuracy: 0.9412 - val_loss: 0.2744
-Epoch 9/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.8925 - loss: 0.2758 - val_accuracy: 0.9412 - val_loss: 0.2624
-Epoch 10/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.9163 - loss: 0.2596 - val_accuracy: 0.9412 - val_loss: 0.2565
-Epoch 11/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 62ms/step - accuracy: 0.8917 - loss: 0.2690 - val_accuracy: 0.9412 - val_loss: 0.2488
-Epoch 12/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 58ms/step - accuracy: 0.9224 - loss: 0.2534 - val_accuracy: 0.9412 - val_loss: 0.2426
-Epoch 13/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 61ms/step - accuracy: 0.9049 - loss: 0.2505 - val_accuracy: 0.9412 - val_loss: 0.2448
-Epoch 14/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 53ms/step - accuracy: 0.9216 - loss: 0.2375 - val_accuracy: 0.9412 - val_loss: 0.2355
-Epoch 15/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 54ms/step - accuracy: 0.9324 - loss: 0.2117 - val_accuracy: 0.9412 - val_loss: 0.2334
-Epoch 16/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.9153 - loss: 0.2043 - val_accuracy: 0.9412 - val_loss: 0.2319
-Epoch 17/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 54ms/step - accuracy: 0.9352 - loss: 0.1994 - val_accuracy: 0.9412 - val_loss: 0.2237
-Epoch 18/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 58ms/step - accuracy: 0.9247 - loss: 0.2037 - val_accuracy: 0.9412 - val_loss: 0.2205
-Epoch 19/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 55ms/step - accuracy: 0.9246 - loss: 0.2055 - val_accuracy: 0.9412 - val_loss: 0.2168
-Epoch 20/20
-7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 57ms/step - accuracy: 0.9257 - loss: 0.1944 - val_accuracy: 0.9412 - val_loss: 0.2141
-Epoch 1/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 132s 7s/step - accuracy: 0.9478 - loss: 0.1509 - val_accuracy: 0.9412 - val_loss: 0.1528
-Epoch 2/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 293ms/step - accuracy: 0.9612 - loss: 0.1299 - val_accuracy: 0.9804 - val_loss: 0.1163
-Epoch 3/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 290ms/step - accuracy: 0.9814 - loss: 0.0645 - val_accuracy: 0.9608 - val_loss: 0.1122
-Epoch 4/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 291ms/step - accuracy: 0.9892 - loss: 0.0441 - val_accuracy: 0.9608 - val_loss: 0.1021
-Epoch 5/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 291ms/step - accuracy: 1.0000 - loss: 0.0157 - val_accuracy: 0.9608 - val_loss: 0.0945
-Epoch 6/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 292ms/step - accuracy: 1.0000 - loss: 0.0081 - val_accuracy: 0.9608 - val_loss: 0.0864
-Epoch 7/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 287ms/step - accuracy: 1.0000 - loss: 0.0084 - val_accuracy: 0.9608 - val_loss: 0.0934
-Epoch 8/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 289ms/step - accuracy: 1.0000 - loss: 0.0041 - val_accuracy: 0.9412 - val_loss: 0.1016
-Epoch 9/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 289ms/step - accuracy: 1.0000 - loss: 0.0037 - val_accuracy: 0.9412 - val_loss: 0.1033
-Epoch 10/10
-7/7 ━━━━━━━━━━━━━━━━━━━━ 2s 288ms/step - accuracy: 1.0000 - loss: 0.0028 - val_accuracy: 0.9412 - val_loss: 0.1015
-```
 ![download (74)](https://github.com/user-attachments/assets/c6b7dc92-60da-4a57-a679-ce4fbeb59bc9)
 
 ### ConvNeXt Base (2nd test with 100 epochs)
@@ -757,135 +579,39 @@ The ConvNeXtBase experiences that the Train Accuracy is lightly lower but stable
 
 ### ConvNeXt Base (after Augmentation, slow Learning Rate & more Weight Decay)
 
-```
-Found 7851 files belonging to 2 classes.
-Using 6281 files for training.
-Found 7851 files belonging to 2 classes.
-Using 1570 files for validation.
-Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/convnext/convnext_base_notop.h5
-350926856/350926856 ━━━━━━━━━━━━━━━━━━━━ 1s 0us/step
-Model: "functional_5"
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ input_layer_6 (InputLayer)      │ (None, 224, 224, 3)    │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ convnext_base (Functional)      │ (None, 1024)           │    87,566,464 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_3 (Dense)                 │ (None, 1024)           │     1,049,600 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ batch_normalization_3           │ (None, 1024)           │         4,096 │
-│ (BatchNormalization)            │                        │               │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout_3 (Dropout)             │ (None, 1024)           │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_4 (Dense)                 │ (None, 512)            │       524,800 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ batch_normalization_4           │ (None, 512)            │         2,048 │
-│ (BatchNormalization)            │                        │               │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout_4 (Dropout)             │ (None, 512)            │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_5 (Dense)                 │ (None, 128)            │        65,664 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ batch_normalization_5           │ (None, 128)            │           512 │
-│ (BatchNormalization)            │                        │               │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dropout_5 (Dropout)             │ (None, 128)            │             0 │
-├─────────────────────────────────┼────────────────────────┼───────────────┤
-│ dense_6 (Dense)                 │ (None, 1)              │           129 │
-└─────────────────────────────────┴────────────────────────┴───────────────┘
- Total params: 89,213,313 (340.32 MB)
- Trainable params: 1,643,521 (6.27 MB)
- Non-trainable params: 87,569,792 (334.05 MB)
-Epoch 1/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 90s 248ms/step - accuracy: 0.9669 - loss: 0.0738 - val_accuracy: 1.0000 - val_loss: 0.0031
-Epoch 2/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 0.0021 - val_accuracy: 1.0000 - val_loss: 2.2823e-04
-Epoch 3/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 0.0016 - val_accuracy: 1.0000 - val_loss: 7.7908e-05
-Epoch 4/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 9.4109e-04 - val_accuracy: 1.0000 - val_loss: 5.3562e-05
-Epoch 5/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 5.4786e-04 - val_accuracy: 1.0000 - val_loss: 4.4003e-05
-Epoch 6/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 2.9322e-04 - val_accuracy: 1.0000 - val_loss: 3.0879e-05
-Epoch 7/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 2.9375e-04 - val_accuracy: 1.0000 - val_loss: 2.8011e-05
-Epoch 8/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 8.4157e-04 - val_accuracy: 1.0000 - val_loss: 2.4395e-05
-Epoch 9/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 3.7109e-04 - val_accuracy: 1.0000 - val_loss: 1.9120e-05
-Epoch 10/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.9372e-04 - val_accuracy: 1.0000 - val_loss: 1.5587e-05
-Epoch 11/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 3.3578e-04 - val_accuracy: 1.0000 - val_loss: 1.2027e-05
-Epoch 12/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.2179e-04 - val_accuracy: 1.0000 - val_loss: 1.0768e-05
-Epoch 13/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 2.0055e-04 - val_accuracy: 1.0000 - val_loss: 9.0574e-06
-Epoch 14/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 48ms/step - accuracy: 1.0000 - loss: 5.4160e-04 - val_accuracy: 1.0000 - val_loss: 9.4908e-06
-Epoch 15/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.2992e-04 - val_accuracy: 1.0000 - val_loss: 6.9158e-06
-Epoch 16/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.7435e-04 - val_accuracy: 1.0000 - val_loss: 5.9949e-06
-Epoch 17/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.0046e-04 - val_accuracy: 1.0000 - val_loss: 5.4176e-06
-Epoch 18/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 9.9402e-05 - val_accuracy: 1.0000 - val_loss: 4.7844e-06
-Epoch 19/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.0763e-04 - val_accuracy: 1.0000 - val_loss: 4.1637e-06
-Epoch 20/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.5559e-04 - val_accuracy: 1.0000 - val_loss: 3.6799e-06
-Epoch 21/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.1532e-04 - val_accuracy: 1.0000 - val_loss: 3.0026e-06
-Epoch 22/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 48ms/step - accuracy: 1.0000 - loss: 4.3446e-04 - val_accuracy: 1.0000 - val_loss: 4.1232e-06
-Epoch 23/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 6.7714e-05 - val_accuracy: 1.0000 - val_loss: 2.9239e-06
-Epoch 24/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 51ms/step - accuracy: 1.0000 - loss: 5.6252e-05 - val_accuracy: 1.0000 - val_loss: 2.8457e-06
-Epoch 25/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 8.4966e-05 - val_accuracy: 1.0000 - val_loss: 2.2999e-06
-Epoch 26/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 8.7809e-05 - val_accuracy: 1.0000 - val_loss: 1.8451e-06
-Epoch 27/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 9s 48ms/step - accuracy: 1.0000 - loss: 4.4246e-05 - val_accuracy: 1.0000 - val_loss: 1.7340e-06
-Epoch 28/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 48ms/step - accuracy: 1.0000 - loss: 1.1607e-04 - val_accuracy: 1.0000 - val_loss: 2.5378e-06
-Epoch 29/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 49ms/step - accuracy: 1.0000 - loss: 1.0646e-04 - val_accuracy: 1.0000 - val_loss: 1.7598e-06
-Epoch 30/30
-197/197 ━━━━━━━━━━━━━━━━━━━━ 10s 50ms/step - accuracy: 1.0000 - loss: 5.5563e-05 - val_accuracy: 1.0000 - val_loss: 1.4175e-06
-Epoch 1/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 202s 551ms/step - accuracy: 1.0000 - loss: 4.1610e-05 - val_accuracy: 1.0000 - val_loss: 5.5411e-07
-Epoch 2/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 3.0005e-05 - val_accuracy: 1.0000 - val_loss: 9.0466e-07
-Epoch 3/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 3.3881e-05 - val_accuracy: 1.0000 - val_loss: 4.3468e-07
-Epoch 4/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 1.8562e-05 - val_accuracy: 1.0000 - val_loss: 3.8294e-07
-Epoch 5/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 1.9135e-05 - val_accuracy: 1.0000 - val_loss: 6.3792e-07
-Epoch 6/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 2.6032e-05 - val_accuracy: 1.0000 - val_loss: 1.6446e-06
-Epoch 7/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 2.5824e-05 - val_accuracy: 1.0000 - val_loss: 8.6545e-07
-Epoch 8/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 2.4534e-05 - val_accuracy: 1.0000 - val_loss: 3.2436e-07
-Epoch 9/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 309ms/step - accuracy: 1.0000 - loss: 1.4336e-05 - val_accuracy: 1.0000 - val_loss: 2.9532e-07
-Epoch 10/10
-197/197 ━━━━━━━━━━━━━━━━━━━━ 61s 308ms/step - accuracy: 1.0000 - loss: 1.7908e-05 - val_accuracy: 1.0000 - val_loss: 5.1941e-07
-50/50 ━━━━━━━━━━━━━━━━━━━━ 18s 244ms/step
-```
-
 ![download (22)](https://github.com/user-attachments/assets/01e3da85-52f0-4213-a61c-daf5e090c389)
 
 ![download (9)](https://github.com/user-attachments/assets/e7726778-a60e-4fd2-a7f7-e9d9fcaa6890)
 
-## Segmentation (to be continued)
+### Comparison of Classifiers
+
+Here’s a detailed interpretation of the comparison:
+
+```
+| Model                | Val Accuracy | Train F1 | Val F1  | Train IoU | Val IoU | AUC (Val) | Notes                                         |
+|----------------------|--------------|----------|---------|-----------|---------|-----------|-----------------------------------------------|
+| ConvNeXtBase (2nd)   | 99.97%       | 0.9996   | 0.9996  | 0.9992    | 1.0000  | 1.0000    | Best metrics overall, high precision & IoU    |
+| EfficientNetV2L (1st)| 98.43%       | 0.9984   | 0.9900  | 0.9990    | ~0.99   | 0.9985    | Achieved great balance, high tumor precision  |
+| ResNet50 (2nd)       | 96.87%       | 0.9914   | 0.9687  | 0.9994    | ~0.84   | 0.9937    | Reached stronger result after fine-tuning     |
+| ConvNeXtBase (1st)   | 96.80%       | 1.0000   | 0.9682  | 1.0000    | ~0.93   | 0.9963    | High accuracy, less stable IoU on val         |
+| EfficientNetV2L (2nd)| 97.77%       | 0.9996   | 0.9777  | 0.9992    | ~0.96   | 0.9972    | Great after fine-tuning, slow start           |
+| ResNet50 (1st)       | 96.00%       | 0.9942   | 0.9445  | 0.9999    | ~0.91   | 0.9858    | Earlier convergence, some instability         |
+```
+
+Overall, the best performer is the **2nd ConvNeXtBase** that reached the highest **Validation Accuracy**: 0.9997, a perfect discrimination shown by **AUC**: 1.0000, the most ideal threshold overlap by **IoU (Validation)**: 1.0000, and all ultimate **Precision / Recall / F1 (Tumor)**: 1.00. As a result, my **2nd ConvNeXtBase** model almost perfectly classifies tumor presence and absence. The exceptional IoU at 1.0 confirms its high overlap between prediction and ground truth. However, furtehr process should be to verify overfitting risk as all signs are too perfect.
+
+The second best performer is the **1st EfficientNetV2L** with **Val Accuracy**: 0.9843, **AUC**: 0.9985, **Tumor Precision, Recall, F1** at 1.00, 0.97, 0.99, respectively. Therefore, my **1st EfficientNetV2L** is very high-performing and balanced with a slightly lower recall, 3% miss rate on tumors, but excellent precision and generalization.
+
+The third best performer is the **2nd ResNet50** which is better than the 1st ResNet50 across all metrics. It shows good stability after fine-tuning.
+
+The fourth runner is the **2nd EfficientNetV2L** which illustrates slightly lower than its first version, probably due to slower convergence or insufficient fine-tuning.
+
+The fifth ranking belongs to the **1st ResNet50** which has 
+lower recall and unstable IoU. Also, earlier convergence led to overconfidence without generalization.
+
+The final place is the **1st ConvNeXtBase** which sees great AUC but moderate recall at 0.94. Still, it is a solid all-around choice.
+
+## SEGMENTATION
 
 ### Segment Anything Model with Transformers (SAM)
 
@@ -987,494 +713,44 @@ After supervising the SAM's application of pinpointing the tumors on the origina
 
 Looking at the metric performance, the model I have developed has very high accuracy at ~99.8%, steady IoU improvement at ~97.2%, low and consistent training & validation loss, relatively stable validation performance, although it iss starting to plateau around epoch 8–11. When reviewing the Plots, the Loss sees a slight upward trend in val_loss, which is possible early signs of overfitting. The Accuracy shows very high and stable rates so there is no collapse in performance so far. The IoU shows slight fuctuation but itend to be good generally, showcasing that th emodel is segmenting well. However, I will still need to tackle the imbalance, overfitting risks and lack of data training.
 
+### Comparison of Segmenters
 
-### DeepLab V3+ Pipeline
+Here is a detailed comparison table of the five segmentation models I have tested:
 
+```markdown
+| Model               | Val Accuracy | Train F1 | Val F1  | Train IoU | Val IoU | AUC (Val) | Notes                                      |
+|---------------------|--------------|----------|---------|-----------|---------|-----------|--------------------------------------------|
+| DeepLabV3+ (2nd)    | 99.72%       | 0.9818   | 0.9776  | 0.9704    | 0.9578  | 0.9998    | Best overall metrics, stable validation    |
+| DeepLabV3+ (1st)    | 99.65%       | 0.9743   | 0.9724  | 0.9537    | 0.9474  | 0.9998    | Close 2nd, faster to train (10 epochs)     |
+| DeepLabV3+ (3rd)    | 99.57%       | 0.9715   | 0.9662  | 0.9585    | 0.9342  | 0.9997    | Solid, slightly less generalizable         |
+| Custom U-Net        | 99.58%       | 0.9708   | 0.9667  | (est. ~0.95)| ~0.93 | 0.9997    | Lightweight, good performance              |
+| Xception-style U-Net| 99.02%       | 0.9400   | 0.9241  | (est. ~0.91)| ~0.89 | 0.9982    | Lower F1 and recall; needs improvement     |
 ```
-Model: "functional"
-┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
-┃ Layer (type)        ┃ Output Shape      ┃    Param # ┃ Connected to      ┃
-┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
-│ input_layer_7       │ (None, 512, 512,  │          0 │ -                 │
-│ (InputLayer)        │ 3)                │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block1_conv1        │ (None, 255, 255,  │        864 │ input_layer_7[0]… │
-│ (Conv2D)            │ 32)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block1_conv1_bn     │ (None, 255, 255,  │        128 │ block1_conv1[0][… │
-│ (BatchNormalizatio… │ 32)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block1_conv1_act    │ (None, 255, 255,  │          0 │ block1_conv1_bn[… │
-│ (Activation)        │ 32)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block1_conv2        │ (None, 253, 253,  │     18,432 │ block1_conv1_act… │
-│ (Conv2D)            │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block1_conv2_bn     │ (None, 253, 253,  │        256 │ block1_conv2[0][… │
-│ (BatchNormalizatio… │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block1_conv2_act    │ (None, 253, 253,  │          0 │ block1_conv2_bn[… │
-│ (Activation)        │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block2_sepconv1     │ (None, 253, 253,  │      8,768 │ block1_conv2_act… │
-│ (SeparableConv2D)   │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block2_sepconv1_bn  │ (None, 253, 253,  │        512 │ block2_sepconv1[… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block2_sepconv2_act │ (None, 253, 253,  │          0 │ block2_sepconv1_… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block2_sepconv2     │ (None, 253, 253,  │     17,536 │ block2_sepconv2_… │
-│ (SeparableConv2D)   │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block2_sepconv2_bn  │ (None, 253, 253,  │        512 │ block2_sepconv2[… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_31 (Conv2D)  │ (None, 127, 127,  │      8,192 │ block1_conv2_act… │
-│                     │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block2_pool         │ (None, 127, 127,  │          0 │ block2_sepconv2_… │
-│ (MaxPooling2D)      │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 127, 127,  │        512 │ conv2d_31[0][0]   │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_60 (Add)        │ (None, 127, 127,  │          0 │ block2_pool[0][0… │
-│                     │ 128)              │            │ batch_normalizat… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block3_sepconv1_act │ (None, 127, 127,  │          0 │ add_60[0][0]      │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block3_sepconv1     │ (None, 127, 127,  │     33,920 │ block3_sepconv1_… │
-│ (SeparableConv2D)   │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block3_sepconv1_bn  │ (None, 127, 127,  │      1,024 │ block3_sepconv1[… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block3_sepconv2_act │ (None, 127, 127,  │          0 │ block3_sepconv1_… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block3_sepconv2     │ (None, 127, 127,  │     67,840 │ block3_sepconv2_… │
-│ (SeparableConv2D)   │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block3_sepconv2_bn  │ (None, 127, 127,  │      1,024 │ block3_sepconv2[… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_32 (Conv2D)  │ (None, 64, 64,    │     32,768 │ add_60[0][0]      │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block3_pool         │ (None, 64, 64,    │          0 │ block3_sepconv2_… │
-│ (MaxPooling2D)      │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 64, 64,    │      1,024 │ conv2d_32[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_61 (Add)        │ (None, 64, 64,    │          0 │ block3_pool[0][0… │
-│                     │ 256)              │            │ batch_normalizat… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block4_sepconv1_act │ (None, 64, 64,    │          0 │ add_61[0][0]      │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block4_sepconv1     │ (None, 64, 64,    │    188,672 │ block4_sepconv1_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block4_sepconv1_bn  │ (None, 64, 64,    │      2,912 │ block4_sepconv1[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block4_sepconv2_act │ (None, 64, 64,    │          0 │ block4_sepconv1_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block4_sepconv2     │ (None, 64, 64,    │    536,536 │ block4_sepconv2_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block4_sepconv2_bn  │ (None, 64, 64,    │      2,912 │ block4_sepconv2[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_33 (Conv2D)  │ (None, 32, 32,    │    186,368 │ add_61[0][0]      │
-│                     │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block4_pool         │ (None, 32, 32,    │          0 │ block4_sepconv2_… │
-│ (MaxPooling2D)      │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 32, 32,    │      2,912 │ conv2d_33[0][0]   │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_62 (Add)        │ (None, 32, 32,    │          0 │ block4_pool[0][0… │
-│                     │ 728)              │            │ batch_normalizat… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv1_act │ (None, 32, 32,    │          0 │ add_62[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv1     │ (None, 32, 32,    │    536,536 │ block5_sepconv1_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv1_bn  │ (None, 32, 32,    │      2,912 │ block5_sepconv1[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv2_act │ (None, 32, 32,    │          0 │ block5_sepconv1_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv2     │ (None, 32, 32,    │    536,536 │ block5_sepconv2_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv2_bn  │ (None, 32, 32,    │      2,912 │ block5_sepconv2[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv3_act │ (None, 32, 32,    │          0 │ block5_sepconv2_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv3     │ (None, 32, 32,    │    536,536 │ block5_sepconv3_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block5_sepconv3_bn  │ (None, 32, 32,    │      2,912 │ block5_sepconv3[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_63 (Add)        │ (None, 32, 32,    │          0 │ block5_sepconv3_… │
-│                     │ 728)              │            │ add_62[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv1_act │ (None, 32, 32,    │          0 │ add_63[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv1     │ (None, 32, 32,    │    536,536 │ block6_sepconv1_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv1_bn  │ (None, 32, 32,    │      2,912 │ block6_sepconv1[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv2_act │ (None, 32, 32,    │          0 │ block6_sepconv1_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv2     │ (None, 32, 32,    │    536,536 │ block6_sepconv2_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv2_bn  │ (None, 32, 32,    │      2,912 │ block6_sepconv2[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv3_act │ (None, 32, 32,    │          0 │ block6_sepconv2_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv3     │ (None, 32, 32,    │    536,536 │ block6_sepconv3_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block6_sepconv3_bn  │ (None, 32, 32,    │      2,912 │ block6_sepconv3[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_64 (Add)        │ (None, 32, 32,    │          0 │ block6_sepconv3_… │
-│                     │ 728)              │            │ add_63[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv1_act │ (None, 32, 32,    │          0 │ add_64[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv1     │ (None, 32, 32,    │    536,536 │ block7_sepconv1_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv1_bn  │ (None, 32, 32,    │      2,912 │ block7_sepconv1[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv2_act │ (None, 32, 32,    │          0 │ block7_sepconv1_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv2     │ (None, 32, 32,    │    536,536 │ block7_sepconv2_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv2_bn  │ (None, 32, 32,    │      2,912 │ block7_sepconv2[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv3_act │ (None, 32, 32,    │          0 │ block7_sepconv2_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv3     │ (None, 32, 32,    │    536,536 │ block7_sepconv3_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block7_sepconv3_bn  │ (None, 32, 32,    │      2,912 │ block7_sepconv3[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_65 (Add)        │ (None, 32, 32,    │          0 │ block7_sepconv3_… │
-│                     │ 728)              │            │ add_64[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv1_act │ (None, 32, 32,    │          0 │ add_65[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv1     │ (None, 32, 32,    │    536,536 │ block8_sepconv1_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv1_bn  │ (None, 32, 32,    │      2,912 │ block8_sepconv1[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv2_act │ (None, 32, 32,    │          0 │ block8_sepconv1_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv2     │ (None, 32, 32,    │    536,536 │ block8_sepconv2_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv2_bn  │ (None, 32, 32,    │      2,912 │ block8_sepconv2[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv3_act │ (None, 32, 32,    │          0 │ block8_sepconv2_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv3     │ (None, 32, 32,    │    536,536 │ block8_sepconv3_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block8_sepconv3_bn  │ (None, 32, 32,    │      2,912 │ block8_sepconv3[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_66 (Add)        │ (None, 32, 32,    │          0 │ block8_sepconv3_… │
-│                     │ 728)              │            │ add_65[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv1_act │ (None, 32, 32,    │          0 │ add_66[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv1     │ (None, 32, 32,    │    536,536 │ block9_sepconv1_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv1_bn  │ (None, 32, 32,    │      2,912 │ block9_sepconv1[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv2_act │ (None, 32, 32,    │          0 │ block9_sepconv1_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv2     │ (None, 32, 32,    │    536,536 │ block9_sepconv2_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv2_bn  │ (None, 32, 32,    │      2,912 │ block9_sepconv2[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv3_act │ (None, 32, 32,    │          0 │ block9_sepconv2_… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv3     │ (None, 32, 32,    │    536,536 │ block9_sepconv3_… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block9_sepconv3_bn  │ (None, 32, 32,    │      2,912 │ block9_sepconv3[… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_67 (Add)        │ (None, 32, 32,    │          0 │ block9_sepconv3_… │
-│                     │ 728)              │            │ add_66[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv1_a… │ (None, 32, 32,    │          0 │ add_67[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv1    │ (None, 32, 32,    │    536,536 │ block10_sepconv1… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv1_bn │ (None, 32, 32,    │      2,912 │ block10_sepconv1… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv2_a… │ (None, 32, 32,    │          0 │ block10_sepconv1… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv2    │ (None, 32, 32,    │    536,536 │ block10_sepconv2… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv2_bn │ (None, 32, 32,    │      2,912 │ block10_sepconv2… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv3_a… │ (None, 32, 32,    │          0 │ block10_sepconv2… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv3    │ (None, 32, 32,    │    536,536 │ block10_sepconv3… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block10_sepconv3_bn │ (None, 32, 32,    │      2,912 │ block10_sepconv3… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_68 (Add)        │ (None, 32, 32,    │          0 │ block10_sepconv3… │
-│                     │ 728)              │            │ add_67[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv1_a… │ (None, 32, 32,    │          0 │ add_68[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv1    │ (None, 32, 32,    │    536,536 │ block11_sepconv1… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv1_bn │ (None, 32, 32,    │      2,912 │ block11_sepconv1… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv2_a… │ (None, 32, 32,    │          0 │ block11_sepconv1… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv2    │ (None, 32, 32,    │    536,536 │ block11_sepconv2… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv2_bn │ (None, 32, 32,    │      2,912 │ block11_sepconv2… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv3_a… │ (None, 32, 32,    │          0 │ block11_sepconv2… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv3    │ (None, 32, 32,    │    536,536 │ block11_sepconv3… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block11_sepconv3_bn │ (None, 32, 32,    │      2,912 │ block11_sepconv3… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_69 (Add)        │ (None, 32, 32,    │          0 │ block11_sepconv3… │
-│                     │ 728)              │            │ add_68[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv1_a… │ (None, 32, 32,    │          0 │ add_69[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv1    │ (None, 32, 32,    │    536,536 │ block12_sepconv1… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv1_bn │ (None, 32, 32,    │      2,912 │ block12_sepconv1… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv2_a… │ (None, 32, 32,    │          0 │ block12_sepconv1… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv2    │ (None, 32, 32,    │    536,536 │ block12_sepconv2… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv2_bn │ (None, 32, 32,    │      2,912 │ block12_sepconv2… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv3_a… │ (None, 32, 32,    │          0 │ block12_sepconv2… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv3    │ (None, 32, 32,    │    536,536 │ block12_sepconv3… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block12_sepconv3_bn │ (None, 32, 32,    │      2,912 │ block12_sepconv3… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ add_70 (Add)        │ (None, 32, 32,    │          0 │ block12_sepconv3… │
-│                     │ 728)              │            │ add_69[0][0]      │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block13_sepconv1_a… │ (None, 32, 32,    │          0 │ add_70[0][0]      │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block13_sepconv1    │ (None, 32, 32,    │    536,536 │ block13_sepconv1… │
-│ (SeparableConv2D)   │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block13_sepconv1_bn │ (None, 32, 32,    │      2,912 │ block13_sepconv1… │
-│ (BatchNormalizatio… │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block13_sepconv2_a… │ (None, 32, 32,    │          0 │ block13_sepconv1… │
-│ (Activation)        │ 728)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block13_sepconv2    │ (None, 32, 32,    │    752,024 │ block13_sepconv2… │
-│ (SeparableConv2D)   │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ block13_sepconv2_bn │ (None, 32, 32,    │      4,096 │ block13_sepconv2… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ global_average_poo… │ (None, 1024)      │          0 │ block13_sepconv2… │
-│ (GlobalAveragePool… │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ reshape_1 (Reshape) │ (None, 1, 1,      │          0 │ global_average_p… │
-│                     │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_39 (Conv2D)  │ (None, 1, 1, 256) │    262,144 │ reshape_1[0][0]   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_35 (Conv2D)  │ (None, 32, 32,    │    262,144 │ block13_sepconv2… │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_36 (Conv2D)  │ (None, 32, 32,    │  2,359,296 │ block13_sepconv2… │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_37 (Conv2D)  │ (None, 32, 32,    │  2,359,296 │ block13_sepconv2… │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_38 (Conv2D)  │ (None, 32, 32,    │  2,359,296 │ block13_sepconv2… │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 1, 1, 256) │      1,024 │ conv2d_39[0][0]   │
-│ (BatchNormalizatio… │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 32, 32,    │      1,024 │ conv2d_35[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 32, 32,    │      1,024 │ conv2d_36[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 32, 32,    │      1,024 │ conv2d_37[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 32, 32,    │      1,024 │ conv2d_38[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_11       │ (None, 1, 1, 256) │          0 │ batch_normalizat… │
-│ (Activation)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_7        │ (None, 32, 32,    │          0 │ batch_normalizat… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_8        │ (None, 32, 32,    │          0 │ batch_normalizat… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_9        │ (None, 32, 32,    │          0 │ batch_normalizat… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_10       │ (None, 32, 32,    │          0 │ batch_normalizat… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ up_sampling2d_2     │ (None, 32, 32,    │          0 │ activation_11[0]… │
-│ (UpSampling2D)      │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ concatenate_2       │ (None, 32, 32,    │          0 │ activation_7[0][… │
-│ (Concatenate)       │ 1280)             │            │ activation_8[0][… │
-│                     │                   │            │ activation_9[0][… │
-│                     │                   │            │ activation_10[0]… │
-│                     │                   │            │ up_sampling2d_2[… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_40 (Conv2D)  │ (None, 32, 32,    │    327,680 │ concatenate_2[0]… │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_41 (Conv2D)  │ (None, 64, 64,    │     34,944 │ block4_sepconv2_… │
-│                     │ 48)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 32, 32,    │      1,024 │ conv2d_40[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 64, 64,    │        192 │ conv2d_41[0][0]   │
-│ (BatchNormalizatio… │ 48)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_12       │ (None, 32, 32,    │          0 │ batch_normalizat… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_13       │ (None, 64, 64,    │          0 │ batch_normalizat… │
-│ (Activation)        │ 48)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ up_sampling2d_3     │ (None, 128, 128,  │          0 │ activation_12[0]… │
-│ (UpSampling2D)      │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ up_sampling2d_4     │ (None, 128, 128,  │          0 │ activation_13[0]… │
-│ (UpSampling2D)      │ 48)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ concatenate_3       │ (None, 128, 128,  │          0 │ up_sampling2d_3[… │
-│ (Concatenate)       │ 304)              │            │ up_sampling2d_4[… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_42 (Conv2D)  │ (None, 128, 128,  │    700,416 │ concatenate_3[0]… │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 128, 128,  │      1,024 │ conv2d_42[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_14       │ (None, 128, 128,  │          0 │ batch_normalizat… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_43 (Conv2D)  │ (None, 128, 128,  │    589,824 │ activation_14[0]… │
-│                     │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ batch_normalizatio… │ (None, 128, 128,  │      1,024 │ conv2d_43[0][0]   │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ activation_15       │ (None, 128, 128,  │          0 │ batch_normalizat… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ up_sampling2d_5     │ (None, 512, 512,  │          0 │ activation_15[0]… │
-│ (UpSampling2D)      │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2d_44 (Conv2D)  │ (None, 512, 512,  │        514 │ up_sampling2d_5[… │
-│                     │ 2)                │            │                   │
-└─────────────────────┴───────────────────┴────────────┴───────────────────┘
- Total params: 24,619,882 (93.92 MB)
- Trainable params: 24,570,378 (93.73 MB)
- Non-trainable params: 49,504 (193.38 KB)
- ```
+
+A point to note here is that the IoU estimates for U-Nets are based on loss, accuracy, and visual inspection as metric wasn't directly generated in the model pipeline.
+
+Based on the given metrics, I can have a conclusion about the performance ranking with an in-depth analysis:
+
+#### 1. **DeepLabV3+ (2nd Model)** – best performer
+
+The 2nd model of DeepLabV3+ performs the best with the highest accuracy (99.72%) and F1 (0.9776) on validation set, as well as a strong mask overlap performance with IoU: 0.9578 on validation set. I configured the Training continued up to 30+ epochs and it shows consistent improvement, which suggests good learning dynamics. There is only minimal overfitting but a stable generalization to validation data. Therefore, in short, this version is the most ideal for MRI Tumor Segmentation where precision matters.
+
+#### 2. **DeepLabV3+ (1st Model)** – strong, fast training
+
+Th 1st model of DeepLabV3+ reaches 99.65% accuracy and 0.9724 F1 in just 10 epochs with a slightly lower IoU (0.9474 vs. 0.9578), but the metric is still robust. Another good point to mention is that the training loss converged quickly. This prompt convergence is beneficial when both training time and compute resources are limited. Therefore, it can be considered a fast deployment with high confidence.
+
+#### 3. **DeepLabV3+ (3rd Model)** – still solid, slightly behind
+
+The 3rd model of DeepLabV3+ sees very high accuracy and F1 at 99.57% and 0.9662, respectively. However, the training started with higher loss at 0.1751, suggesting a more difficult starting point. It also experiences lower convergence than previous two models due to slower learning rate and updated weight decay and decay rate, as well as a slight lower rate in IoU ~0.9342 on validation set. Therefore, it is more suitable if earlier models that I developed are not available or dataset noise increases.
+
+#### 4. **Custom U-Net** – lightweight and impressive
+
+The Custom U-Net delivers 99.58% accuracy and 0.9667 F1, which are comparable to DeepLabV3+ (3rd model). But, it is faster and has more interpretable architecture. It also experiences that the Val loss consistently drops, suggesting strong generalization. Therefore, it is a good option where compute or interpretability is a concern to have a resource-light model but still a trade-off between size and accuracy.
+
+#### 5. **Xception-style U-Net** – underperformer
+
+The Xception-stype U-Net has high metrics overall but lowest metrics among 5 Segmenters with Val F1 = 0.9241, Accuracy = 99.02% and estimated IoU at ~0.89.Although train accuracy is high, there is a larger gap between train/val F1, which suggests overfitting despite it might benefit from fewer layers, regularization and pretrained encoder weights. Therefore, it can be good as a prototype but is not good enough for production as-is.
+
 
 
 
