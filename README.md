@@ -752,16 +752,21 @@ The Custom U-Net delivers 99.58% accuracy and 0.9667 F1, which are comparable to
 The Xception-stype U-Net has high metrics overall but lowest metrics among 5 Segmenters with Val F1 = 0.9241, Accuracy = 99.02% and estimated IoU at ~0.89.Although train accuracy is high, there is a larger gap between train/val F1, which suggests overfitting despite it might benefit from fewer layers, regularization and pretrained encoder weights. Therefore, it can be good as a prototype but is not good enough for production as-is.
 
 
-
-
 --- 
 
+# Conclusion
 
+In my project, I developed a robust pipeline for Brain Tumor MRI Detection and Segmentation using multiple Deep Learning models. My experiments included Classification models based on ResNet50, EfficientNetV2L and ConvNextBase, and Segmentation models, including DeepLabV3+, Custom U-Net and Xception-stype U-Net. Based on my research and key findings, I found that ConvNeXtBase (2nd model) achieved the highest classification performance with near-perfect metrics with Accuracy ~100%, AUC = 1.00, IoU = 0.99, indicating excellent generalization. Besides, DeepLabV3+ (2nd model) provided the best Segmentation Accuracy (Val IoU = 0.9578), with stable validation performance. The robust Custom U-Net models showed lightweight efficiency, while Xception-style U-Net had lower Recall and requires architectural refinement for more perfect precision. I can prove my hypothesis that all of my models benefited from MUSICA image enhancement and data augmentation, improving both training stability and validation accuracy. My project demonstrates that transformer-inspired architectures like ConvNeXt and Atrous Spatial Pyramid Pooling (ASPP) in DeepLabV3+ are my state-of-the-art choices for tumor detection tasks. Moreover, using IoU as an auxiliary metric for both classification and segmentation enables better monitoring of spatial accuracy beyond simple accuracy or loss and other metrics like F1, precision, recall, ROC, AUC.
+
+---
+
+# Ideas for Future Work
+
+Here are some of my ideas for scaling my project horizontally and vertically. As the MRI dataset I had was small and could affect the model's training and prediction, I can try using larger dataset such as BraTS 2021/2023 for more efficient training as a trade-off with compute costs and model architectural complexity. Fine-tuning on a greater dataset for benchmark comparison is also a meaningful enhancement. Furthermore, as I already implemented Vision Transformers (ViTs) and SAM (Segment Anything Model) in my pipelines, I can incorporate them for zero-shot or general-purpose segmentation. The dataset I worked with and developed models upon was static 2D MRIs. It would be even more beneficial to apply 3D MRI volumes with models like 3D U-Net or V-Net for volumetric segmentation.
+
+---
 
 # References
-
-## References
-
 
 #### Medical Imaging, CAD, and AI
 
@@ -862,6 +867,66 @@ Use this reference to support:
    *Navoneel Chakrabarty, Kaggle.*  
    _Brain MRI Images for Brain Tumor Detection (Yes/No classification)._  
    https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection
+
+---
+### **Core Methodologies and Architectures**
+
+1. **DeepLabV3+**
+
+   > Chen, L.-C., Zhu, Y., Papandreou, G., Schroff, F., & Adam, H. (2018). *Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation*. Proceedings of the European Conference on Computer Vision (ECCV), 801–818.
+   > [https://arxiv.org/abs/1802.02611](https://arxiv.org/abs/1802.02611)
+
+2. **U-Net**
+
+   > Ronneberger, O., Fischer, P., & Brox, T. (2015). *U-Net: Convolutional Networks for Biomedical Image Segmentation*. In Medical Image Computing and Computer-Assisted Intervention (MICCAI), Lecture Notes in Computer Science, vol. 9351, pp. 234–241. Springer.
+   > [https://arxiv.org/abs/1505.04597](https://arxiv.org/abs/1505.04597)
+
+3. **EfficientNetV2**
+
+   > Tan, M., & Le, Q. (2021). *EfficientNetV2: Smaller Models and Faster Training*. Proceedings of the 38th International Conference on Machine Learning (ICML), PMLR 139:10096–10106.
+   > [https://arxiv.org/abs/2104.00298](https://arxiv.org/abs/2104.00298)
+
+4. **ConvNeXt (ConvNet + Transformer design)**
+
+   > Liu, Z., Mao, H., Wu, C.-Y., Feichtenhofer, C., Darrell, T., & Xie, S. (2022). *A ConvNet for the 2020s*. Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp. 11976–11986.
+   > [https://arxiv.org/abs/2201.03545](https://arxiv.org/abs/2201.03545)
+
+5. **Segment Anything (SAM)**
+
+   > Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C., Schmidt, T., et al. (2023). *Segment Anything*. arXiv preprint.
+   > [https://arxiv.org/abs/2304.02643](https://arxiv.org/abs/2304.02643)
+
+---
+
+### **Preprocessing and Enhancement**
+
+6. **MUSICA (Multiscale Image Contrast Amplification)**
+
+   > Pizer, S. M., Eberly, D., Ericksen, J., & Hines, D. (1998). *Multiscale Image Contrast Amplification (MUSICA)*. Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing.
+   > [IEEE Paper Link](https://ieeexplore.ieee.org/document/4516995)
+
+---
+
+### **Datasets and Benchmarks**
+
+7. **BraTS Challenge Dataset**
+
+   > Menze, B. H., Jakab, A., et al. (2015). *The Multimodal Brain Tumor Image Segmentation Benchmark (BRATS)*. IEEE Transactions on Medical Imaging, 34(10), 1993–2024.
+   > BraTS 2023 Official: [https://www.med.upenn.edu/cbica/brats2023/data.html](https://www.med.upenn.edu/cbica/brats2023/data.html)
+
+---
+
+### **Additional Suggested Reading**
+
+8. **3D U-Net for Volumetric Segmentation**
+
+   > Çiçek, Ö., Abdulkadir, A., Lienkamp, S. S., Brox, T., & Ronneberger, O. (2016). *3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation*. In MICCAI 2016, LNCS, vol. 9901, pp. 424–432. Springer.
+   > [https://arxiv.org/abs/1606.06650](https://arxiv.org/abs/1606.06650)
+
+9. **Vision Transformers (ViTs)**
+
+> Dosovitskiy, A., Beyer, L., Kolesnikov, A., et al. (2020). *An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale*. ICLR.
+> [https://arxiv.org/abs/2010.11929](https://arxiv.org/abs/2010.11929)
 
 
 
