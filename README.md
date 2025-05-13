@@ -1374,6 +1374,39 @@ Lastly, the same result will be will plots of original image, ground truth mask 
 
 ## Xception-style U-Net
 
+As I have developed a custom U-Net, I will now develop an Xception-style U-Net as per Keras's reference, which is a modern variant with depthwise separable convolutions and residuals. Here is my table of comparision between the two models.
+
+| Feature                | **Custom U-Net**                                            | **Xception-style U-Net**                                                      |
+| ---------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **Encoder blocks**     | Conv2D → BatchNorm → ReLU ×2                                | SeparableConv2D ×2 → MaxPooling2D + **residual connections**                  |
+| **Decoder blocks**     | Conv2DTranspose + skip concat + Conv2D ×2                   | Conv2DTranspose ×2 → UpSampling2D + **residual connections**                  |
+| **Skip connections**   | Concatenation from encoder to decoder                       | Residual **additive skip** inside both encoder and decoder                    |
+| **Convolution type**   | Standard Conv2D                                             | **SeparableConv2D**, which is efficient, used in Xception style and DeepLabV3+|
+| **Output activation**  | `from_logits=True`, raw output, argmax or softmax later)    | `from_logits=False`, which uses **softmax output layer** directly             |
+| **Output layer**       | `Conv2D(num_classes, 1)`                                    | `Conv2D(num_classes, 3, activation="softmax")`                                |
+| **Flexibility**        | Modular and extendable                                      | More modern, efficient, and compact                                           |
+| **Training stability** | Simpler, easy to tune                                       | Better performance on larger datasets or deeper networks due to **residuals** |
+
+---
+
+There are several key architectural differences
+
+In terms of the Depthwise Separable Convolutions, the `SeparableConv2D` is used in my Xception-style model, which factorizes a regular convolution into depthwise conv (per channel) and pointwise conv (1×1 conv across channels). This will hep to reduce computation and number of parameters. However, there is a tradeoff to consider that it can experience slightly lower representational power but it can generalize better on small MRI datasets.
+
+Regarding the Residual Connections, my Xception-style model adds skip connections, which are ResNet-style residuals, inside both encoder and decoder blocks:
+
+  ```python
+  residual = layers.Conv2D(filters, 1, strides=2, padding="same")(prev_activation)
+  x = layers.add([x, residual])
+  ```
+These configurations prevents diminishing gradients in deep models and accelerates convergence. They can also empower learning of subtle features such as tumor boundaries, especially in case that the tumor boundaries are not clear. Meanwhile, my custom U-Net uses concatenation skip connections from encoder to decoder to preserve fine spatial detail. This behavior is also crucial for reconstruction of precise tumor masks.
+
+Regarding the Decoder design, my custom U-Net has `Conv2DTranspose` → `Concatenate` so there is more spatial fusion from encoder for decoder while my Xception-style U-Net has `Conv2DTranspose` → `UpSampling` + additive residual so Decoder could gain benefits from a smaller number of paramers as it is deeper and perform more efficiently.
+
+In terms of Output Layer and Loss, my custom U-Net doesn't have output activation (hence, raw logits) and `from_logits` in loss is `True` so I will haev to interpret outputs with either softmax or argmax manually. Meanwhile, my Xception-style U-Net has output activation as Softmax and `from_logits` in loss is `False` so it already had a built-in softmax to simplify the pipelines.
+
+To sum up, the Custom U-Net would be more ideal when interpretability and flexibility are prioritized as I can debug layers and customize fusion more conveniently. As a tradeoff of advantages, Xception-stype U-Net would be better if I prioritize faster training, fewer parameters and better scaling as I prefer to build efficient real-time systems. Furthermore, if the model can overfit easily, the regularization via residuals and separables of the Xception-style can help to fight against overfitting.               
+
 
 ### Comparison of Segmenters
 
