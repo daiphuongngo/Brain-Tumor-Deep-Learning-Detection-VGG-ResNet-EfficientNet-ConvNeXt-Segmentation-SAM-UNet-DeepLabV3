@@ -216,13 +216,13 @@ Another major issue is class imbalance in the given images. In my dataset, there
 
 To rectify the problems, I've been thinking about some techniques to apply for and test the ending results when put into the models.
 
-Data augmentation can help to apply certain tasks like rotation, flipping, contrast adjustment and noise surpression to have more diverse data for model training.
+- Data augmentation can help to apply certain tasks like rotation, flipping, contrast adjustment and noise surpression to have more diverse data for model training.
 
-Class rebalancing might offer an effective fight against bias with oversampling or undersampling. I have to think which one makes more sense for this project.
+- Class rebalancing might offer an effective fight against bias with oversampling or undersampling. I have to think which one makes more sense for this project.
 
-Transfer learning can reduce much of model development by using pretrained models that were trained on large-scale medical datasets to improve performance on my limited data.
+- Transfer learning can reduce much of model development by using pretrained models that were trained on large-scale medical datasets to improve performance on my limited data.
 
-Not relying on a single metric, accuracy, is a must as there are other metrics like precision, recall and their curves, AUC ROC, F1 to consider about.
+- Not relying on a single metric, accuracy, is a must as there are other metrics like precision, recall and their curves, AUC ROC, F1 to consider about.
 
 I've been thinking about finding more images to merge into my dataset or find a brand new dataset but their load are very heavy for limited cloud storage and model consumption within limited project timeline for this course if not running on Kaggle notebook but on Google Colab Pro (plus) and better version of Google Drive.
 
