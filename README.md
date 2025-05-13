@@ -796,11 +796,161 @@ These differences matter as lower initial LR and slower decay in the 2nd model m
 ![download (73)](https://github.com/user-attachments/assets/aeaf7a70-53d1-474f-aaeb-1cfd1b4a66a2)
 
 
-### ConvNeXt Base (initial test with 20 epochs)
+### ConvNeXt Base (1st model)
+
+I also chose ConvNeXt in my Classification pipeline as it is a modernized convolutional neural network (CNN) that matches the performance of Vision Transformers (ViTs) while keeping the efficiency of CNNs. There are certain benefits of developing this model. The first benefit also comes from the ImageNet pre-trained for strong transfer learning. Secondly, it is inspired by ViTs but faster and easier to train and it can work well on small-to-medium medical datasets. Furthermore, the ConvNeXtBase provides state-of-the-art accuracy and handles fine textures and localization well, which I find it useful for subtle tumor features. Therefore, it is fficient for both training and inference in my medical workflows.
+
+There are several differences my models in 2 versions:
+
+| Feature                       | **Model 1** (ConvNeXt v1)                                     | **Model 2** (ConvNeXt v2)                                            |
+| ----------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Data loader**               | `ImageDataGenerator.flow_from_directory`                      | `image_dataset_from_directory` (native tf.data API)                  |
+| **Preprocessing**             | Preprocessing inside `ImageDataGenerator`                     | Applied explicitly using `convnext.preprocess_input(inputs)`         |
+| **Batch performance**         | Slower (uses legacy Keras generator)                          | Faster (TensorFlow-native pipeline with prefetching)                 |
+| **Initial learning rate**     | `1e-4`                                                        | `1e-5`                                                               |
+| **Decay rate**                | 0.9                                                           | 0.85                                                                 |
+| **EarlyStopping**             | Yes                                                           | No callbacks specified during training                               |
+| **Fine-tuning learning rate** | `1e-5`                                                        | `1e-6`                                                               |
+| **Model save**                | Not saved                                                     | Saved at end using `model.save(model_path)`                          |
+| **Model structure**           | Same architecture: ConvNeXtBase → GAP → Dense Layers → Output | Same                                                                 |
+| **Dataset interface**         | Keras legacy generator (shuffle=True / False manually)        | `tf.data.Dataset` with `AUTOTUNE` for efficient batching + shuffling |
+
+Some other aspects I can mention about the similarities and differences between the 2 models are:
+
+ **Data Loaders**
+
+Model 1: `ImageDataGenerator` (Keras legacy)
+
+```python
+datagen = keras.preprocessing.image.ImageDataGenerator(
+    preprocessing_function=keras.applications.convnext.preprocess_input,
+    validation_split=0.2
+)
+```
+This generator applies preprocessing and data augmentation and uses ConvNeXt-specific normalization like rescaling, mean/std adjust.
+
+```python
+train_ds = datagen.flow_from_directory(..., subset='training')
+val_ds = datagen.flow_from_directory(..., subset='validation')
+```
+
+The 1st model loads images from folders with `"tumor"` and `"no_tumor"` subdirectories and automatically assigns binary labels based on folder names.
+
+Meanwhile the 2nd model approaches a bit differently with `image_dataset_from_directory` (TF native).
+
+```python
+train_ds = keras.utils.image_dataset_from_directory(
+    ..., validation_split=0.2, subset="training", label_mode="binary"
+)
+val_ds = keras.utils.image_dataset_from_directory(... subset="validation")
+```
+
+In this way, the 2nd model is easier to scale and faster on GPU and explicitly sets image size and labels. Its `prefetch(AUTOTUNE)` can improve performance by overlapping CPU/GPU work.
+
+There is a same approach of both models leveraging **Learning Rate Schedule**:
+
+```python
+lr_schedule = ExponentialDecay(
+    initial_learning_rate=1e-4 or 1e-5,
+    decay_steps=1000,
+    decay_rate=0.9 or 0.85
+)
+```
+
+This implements:
+
+$$
+lr_t = lr_0 \cdot decay\_rate^{t / decay\_steps}
+$$
+
+
+So, basically, the learning starts with small LR to avoid catastrophic forgetting and decays it slowly over time.
+
+There is a similar model construction with my ConvNeXtBase:
+
+```python
+base_model = keras.applications.ConvNeXtBase(
+    include_top=False,
+    weights='imagenet',
+    input_shape=img_size + (3,),
+    pooling='avg'
+)
+base_model.trainable = False  # Freeze during initial training
+```
+
+Here I load pretrained ConvNeXtBase without final classification head and use global average pooling (GAP) to convert 2D features to 1D.
+
+```python
+inputs = keras.Input(shape=img_size + (3,))
+x = keras.applications.convnext.preprocess_input(inputs)
+```
+
+Then I will wrap input image and apply ConvNeXt-specific normalization.
+
+```python
+x = base_model(x, training=False)
+x = layers.Dense(1024, activation="relu")(x)
+x = layers.BatchNormalization()(x)
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(512, activation="relu")(x)
+x = layers.BatchNormalization()(x)
+x = layers.Dropout(0.3)(x)
+x = layers.Dense(128, activation="relu")(x)
+x = layers.BatchNormalization()(x)
+x = layers.Dropout(0.2)(x)
+outputs = layers.Dense(1, activation="sigmoid")(x)
+```
+
+At this stage, my Fully connected (FC) layers can refine features:
+
+  - `Dense(1024 → 512 → 128)`
+  - BatchNorm stabilizes
+  - Dropout avoids overfitting
+  - `Dense(1, sigmoid)` for binary classification output
+
+```python
+model = keras.Model(inputs, outputs)
+```
+
+The compilation is similar to the other models I developed before with an optimizer, accuracy, AUC and IoU.
+
+```python
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=lr_schedule, weight_decay=1e-5),
+    loss="binary_crossentropy",
+    metrics=["accuracy", keras.metrics.AUC(name='auc'), binary_iou]
+)
+```
+
+- `Adam` for adaptive optimization
+- `binary_crossentropy` for binary output
+- `AUC` for class separability
+- `binary_iou` for localization
+
+When it comes to training,
+
+```python
+earlystop = keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)
+history = model.fit(train_ds, validation_data=val_ds, epochs=30, callbacks=[earlystop])
+```
+
+I will train for max 30 epochs and apply Early stopping if validation AUC doesn't improve for 5 epochs.
+
+The model itself also needs a Fine-Tuning Phase:
+
+```python
+base_model.trainable = True  # Unfreeze ConvNeXt
+model.compile(... learning_rate=1e-5 or 1e-6)
+model.fit(train_ds, validation_data=val_ds, epochs=10–30)
+```
+
+My intention is to allow backpropagation through the pretrained ConvNeXt and use very low LR to avoid damaging pretrained weights.
+
+In summary, based on the configurations, I can use the 1st model for more controlled experiments, especially if I want early stopping. Otherwise, I can use the 2nd model for production pipelines with better performance and easier scaling with distributed datasets.
 
 ![download (74)](https://github.com/user-attachments/assets/c6b7dc92-60da-4a57-a679-ce4fbeb59bc9)
 
-### ConvNeXt Base (2nd test with 100 epochs)
+### ConvNeXt Base (2nd model)
 
 ![Convnext with 100 epochs](https://github.com/user-attachments/assets/0a89e2f9-7a3e-4b07-861f-e016febf92c8)
 
