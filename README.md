@@ -1300,6 +1300,28 @@ which requires more subtle pattern recognition.
 
 Looking at the metric performance, the model I have developed has very high accuracy at ~99.8%, steady IoU improvement at ~97.2%, low and consistent training & validation loss, relatively stable validation performance, although it iss starting to plateau around epoch 8–11. When reviewing the Plots, the Loss sees a slight upward trend in val_loss, which is possible early signs of overfitting. The Accuracy shows very high and stable rates so there is no collapse in performance so far. The IoU shows slight fuctuation but itend to be good generally, showcasing that th emodel is segmenting well. However, I will still need to tackle the imbalance, overfitting risks and lack of data training.
 
+## SegFormer:
+
+Next, I will implement **custom SegFormer model** for **brain tumor segmentation**. This will be an advanced choice complementing DeepLabV3+ for this purpose. I would not say this is a choice improving upon DeepLabV3+ as I will compare the performance later.
+
+There are different reasons why I decided to move forward woth SegFormer for Medical Image Segmentation. First, SegFormer offers state-of-the-art accuracy when it blends Transformers with CNN-like efficiency, excelling at fine-grained boundary localization where small details and large context can be captured. Secondly, the transformer blocks in the SegFormer allow global context modeling across image patches. This is different from CNNs that has heavy reliance on receptive fields. SegFormer uses a simple, lightweight MLP-based decoder. This is crucial as less computational costs are consumed while maintaining its performance at  high accuracy. Also, SegFormer offers multi-scale feature fusion where I can upsample and concatenate feature maps from 4 different spatial scales. These behaviors are similar to UNet or DeepLab skip connections but they can be more efficiently. Lastly, SegFormer tends to be more robust to class imbalance with global reasoning via attention can have small tumor regions detected, which might be ignored by CNNs.
+
+Regarding the Data Input and Preprocessing, there is a similar pipeline as DeepLabV3+ where I loads and resize images to `(512, 512)` and have masks  binarized with `0 = background` and `1 = tumor`.
+
+The next step in the DeepLabV3+ is about Patch Extraction and Encoding Layers** which flattens image into tokens by `tf.image.extract_patches` and have positional info encoded when it is lost during patching. My SegFormer pipeline simplfies this so the pipeline skips this and replaces it with progressive CNN downsampling. This downsampling will mimic the processes of extracting hierarchical token and conducting spatial reduction. In fact, these 4 downsampling stages are the CNN backbone as below, corresponding to features at different resolutions.
+
+- s1: 4× downsampled
+- s2: 8×
+- s3: 16×
+- s4: 32×
+
+The backbone of my SegFormer is a pure CNN and transformer-style feature aggregation while the DeepLabV3+ backbone is a ResNet50 and ASPP (dilated convolutions).
+
+After the downsampling, here comes the MLP decoder with upsampling to replace heavy transposed convolutions used in the prior DeepLabV3+ and later UNet. Each stage from `s1` to `s4` is passed through a `Conv2D(128, 1)` to have a unification in depth. Therefore, any features will be resized to the unified `32×32` resolution. Actually, They are concatenated and passed through two layers of `Conv2D(256, 3x3)`, a final `Upsampling(16x)` to upsample from `32x32` to `512x512` and then reach a `Conv2D(num_classes, 1)`, which is output logits per pixel.
+
+Regarding the Training elements, both models remain the same in using the Optimizer `Adam(1e-4)`, Loss `SparseCategoricalCrossentropy(from_logits=True)`, accuracy metric and epoch number by 10.
+
+
 ### Comparison of Segmenters
 
 Here is a detailed comparison table of the five segmentation models I have tested:
