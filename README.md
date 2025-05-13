@@ -533,6 +533,83 @@ KID measures the distributional similarity between generated images and real ima
 
 ### ResNet50 (initial test with 10 epochs)
 
+ResNet50 is the first classification model in my project to detect the presence of brain tumors in MRI images. This is a binary classification task where Class 0 represents No Tumor and Class 1 represents Tumor Present. ResNet50 serves as a powerful feature extractor, especially when pretrained on ImageNet and works well on medical imaging tasks due to its benefits.
+
+The first benefit comes from Transfer Learning that it leverages pretrained filters from large datasets like ImageNet to capture texture, shape and edges, even in grayscale-like MRI images. It also has a deep architecture where its residual blocks help train deeper networks without vanishing gradients. The ResNet also has proven performance as it is a standard benchmark in medical image classification and diagnostic imaging tasks. It is assumed to perform faster convergence when less data and training time are needed because initial layers already capture general features.  
+
+In my pipeline, I will delope the 1st and 2nd ResNet50 Models with some differences between them.
+
+This 1st model - Sequential API, uses a simpler, `Sequential` approach.
+
+### 1. **Data Loading and Augmentation**
+
+```python
+train_datagen = ImageDataGenerator(
+    preprocessing_function=preprocess_input,  # Normalizes images using ImageNet mean/std
+    validation_split=0.2,
+    rotation_range=10, width_shift_range=0.05,
+    height_shift_range=0.05, shear_range=0.05,
+    zoom_range=0.1, horizontal_flip=True, fill_mode='nearest'
+)
+```
+
+This version applies real-time augmentation and normalizes images to match ResNet50 expectations.
+
+### 2. **Load Image Batches**
+
+```python
+train_generator = train_datagen.flow_from_directory(..., subset='training')
+val_generator = train_datagen.flow_from_directory(..., subset='validation')
+```
+
+The code loads images and labels from folder structure using `class_mode='binary'`.
+
+### 3. **Model Definition**
+
+```python
+base_model = ResNet50(weights='imagenet', include_top=False, input_shape=img_size + (3,))
+base_model.trainable = False
+```
+
+Then I will load the ResNet50 without top classification layer. I will then freeze the convolutional base for transfer learning.
+
+```python
+model = models.Sequential([
+    base_model,
+    layers.GlobalAveragePooling2D(),
+    layers.BatchNormalization(),
+    layers.Dense(512, activation='relu'),
+    layers.Dropout(0.5),
+    layers.BatchNormalization(),
+    layers.Dense(128, activation='relu'),
+    layers.Dropout(0.3),
+    layers.Dense(1, activation='sigmoid')
+])
+```
+
+I add a custom head on top with dense layers and dropout for regularization so my layers will end with sigmoid for binary classification.
+
+
+### 4. **Compile and Train**
+
+```python
+lr_schedule = ExponentialDecay(1e-4, decay_steps=1000, decay_rate=0.9)
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=lr_schedule),
+    loss='binary_crossentropy',
+    metrics=['accuracy', keras.metrics.AUC(name='auc'), binary_iou]
+)
+```
+
+Here I will use exponential decay learning rate and binary IoU as a custom metric (same as the Segmenters) and train the model with Adam optimizer.
+
+```python
+model.fit(..., callbacks=[earlystop, checkpoint])
+```
+
+Here I will initiate training the model and save the best one based on validation AUC with Early Stop when the learning does not improve anymore to avoid overfitting.
+
 ![download (55)](https://github.com/user-attachments/assets/7ede18c8-7046-42d3-9e12-e57530028064)
 
 ![download (56)](https://github.com/user-attachments/assets/cd21b2cc-aa72-4d80-b7e1-dfc1cc5568ac)
