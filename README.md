@@ -1321,6 +1321,59 @@ After the downsampling, here comes the MLP decoder with upsampling to replace he
 
 Regarding the Training elements, both models remain the same in using the Optimizer `Adam(1e-4)`, Loss `SparseCategoricalCrossentropy(from_logits=True)`, accuracy metric and epoch number by 10.
 
+## Customized U-Net:
+
+I will now develop a **customized U-Net model** for the same brain tumor segmentation task and then compare to my SegFormer and DeepLabV3+ pipelines to see the strengths of U-Net. There are different reasons why I chose U-Net model for this segmentation task. First, U-Net is a medical segmentation gold standard as its origin came from biomedical image segmentation and it is well-known in this domain because of its simple architecture and powerful performance. Also, it provides precise boundary detection thanks to its skip connections that maintain spatial resolution from initial layers and reserve spatial detail for sharp segmentation. This advantage gives a capability in identifying fine-grained boundaries of tumors. Besides its simplicity, it also offers customizability as my implementation is modular with `conv_block`, `encoder_block`, `decoder_block` which makes it easy to tune or extend, scale depth or width depending on my intentional hardware or given dataset size. Overall, thanks to these simplicity and customizability, it is lightweight and interpretable, making it easier to debug and deploy than transformer-heavy models like SegFormer. As a result, it becomes efficient with small datasets like the original datasets with under 200 images per dataset and the augmented 10K images per training/validation set. Therefore, U-Net is  suitable for limited medical data, especially when I will pair it with strong enough data augmentation by 10K per set.    
+
+Looking at the Data Loading and Preprocessing, I will apply the same data prep strategy as in my other models with images resized to `(512, 512) and masks thresholded to binary, having tumor as 1 vs background as 0.
+
+The most important part is the **U-Net Architecture**. Below is my Encoder Path:
+
+```python
+s1, p1 = encoder_block(inputs, 64)
+s2, p2 = encoder_block(p1, 128)
+s3, p3 = encoder_block(p2, 256)
+s4, p4 = encoder_block(p3, 512)
+```
+
+Here, I will conduct downsampling through `MaxPooling2D`. In this process, two Conv-BN-ReLU layers are used in each `encoder_block`, which decreases spatial resolution while increasing feature depth. This helps to captures semantic context in complex texture.
+
+The code below is considered a bottleneck or a bridge as the deepest representation of input image because it has the most compressed features.
+
+```python
+b1 = conv_block(p4, 1024)
+```
+
+After encoding or compressing, this is my Decoder Path as Expanding as a symmetrical design, offering encoder-decoder balance to make sure of effective feature fusion.  
+
+```python
+d1 = decoder_block(b1, s4, 512)
+...
+d4 = decoder_block(d3, s1, 64)
+```
+
+I will now upsample through `Conv2DTranspose` and  concatenate encoder features at each level, which are skip connections. These layers will recover spatial details from initial layers, which are crucial for precise segmentation.
+
+In the Output Layer, it gives a 1×1 convolution to produce per-pixel class logits with `num_classes = 2`, representing binary classification of tumor vs non-tumor as the main goal is to predict the tumor mask (in white) while other pixels are background as black.
+
+```python
+outputs = layers.Conv2D(num_classes, 1, padding="same")(d4)
+```
+---
+
+Furthermore, the custom U-Net uses standard and similar optimizer and loss, but `from_logits=True` as the final layer does not apply softmax.
+
+```python
+model.compile(optimizer=Adam(1e-4),
+              loss=SparseCategoricalCrossentropy(from_logits=True),
+              metrics=["accuracy"])
+```
+Lastly, the same result will be will plots of original image, ground truth mask and prediction side-by-side to qualitatively evaluate mask accuracy and edge sharpness.
+
+---
+
+## Xception-style U-Net
+
 
 ### Comparison of Segmenters
 
