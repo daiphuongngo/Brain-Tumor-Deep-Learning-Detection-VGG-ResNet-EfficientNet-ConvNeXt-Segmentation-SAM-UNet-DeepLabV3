@@ -8,7 +8,7 @@
 
 ## CSCI E-25 Computer Vision in Python
 
-## Timeline: January 6th - May 16th, 2025 (In Progress)
+## Timeline: January 6th - May 16th, 2025 (Completed)
 
 ## Professor: Stephen Elston
 
