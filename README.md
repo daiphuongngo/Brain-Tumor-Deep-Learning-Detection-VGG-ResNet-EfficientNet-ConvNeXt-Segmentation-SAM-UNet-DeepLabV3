@@ -531,7 +531,7 @@ KID measures the distributional similarity between generated images and real ima
 
 ## CLASSIFICATION
 
-### ResNet50 (initial test with 10 epochs)
+### ResNet50 (1st model)
 
 ResNet50 is the first classification model in my project to detect the presence of brain tumors in MRI images. This is a binary classification task where Class 0 represents No Tumor and Class 1 represents Tumor Present. ResNet50 serves as a powerful feature extractor, especially when pretrained on ImageNet and works well on medical imaging tasks due to its benefits.
 
@@ -614,7 +614,120 @@ Here I will initiate training the model and save the best one based on validatio
 
 ![download (56)](https://github.com/user-attachments/assets/cd21b2cc-aa72-4d80-b7e1-dfc1cc5568ac)
 
-### ResNet50 (2nd test with 100 epochs)
+### ResNet50 (2nd model)
+
+My 2nd version - Functional API, is more modular, scalable and flexible for several reasons.
+
+### 1. **Preprocessing**
+
+```python
+inputs = keras.Input(shape=img_size + (3,))
+x = preprocess_input(inputs)
+```
+
+I will start by defining an explicit input layer and apply preprocessing inline using Keras Applications.
+
+### 2. **ResNet50 as Backbone**
+
+```python
+base_model = ResNet50(
+    weights='imagenet',
+    include_top=False,
+    input_tensor=x,
+    pooling='avg'
+)
+base_model.trainable = False
+```
+
+My ResNet50 is integrated and serves as a feature extractor with average pooling included directly.
+
+### 3. **Custom Classification Head**
+
+```python
+x = layers.Dense(1024, activation='relu')(base_model.output)
+x = layers.BatchNormalization()(x)
+x = layers.Dropout(0.5)(x)
+x = layers.Dense(512, activation='relu')(x)
+x = layers.BatchNormalization()(x)
+x = layers.Dropout(0.3)(x)
+x = layers.Dense(128, activation='relu')(x)
+x = layers.BatchNormalization()(x)
+x = layers.Dropout(0.2)(x)
+outputs = layers.Dense(1, activation='sigmoid')(x)
+```
+
+Here I will configure a deeper fully connected head with progressive dimensionality reduction and regularization.
+
+```python
+model = keras.Model(inputs, outputs)
+```
+
+Then I will wrap the entire flow from input to base\_model and then head into a single model object.
+
+### 4. **Compile and Train**
+
+```python
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=lr_schedule, weight_decay=1e-5),
+    loss='binary_crossentropy',
+    metrics=['accuracy', keras.metrics.AUC(name='auc'), binary_iou]
+)
+```
+
+As advised, I will add weight decay to reduce overfitting, and the same metrics.
+
+```python
+model.fit(..., callbacks=[earlystop, checkpoint])
+```
+
+I also use early stopping and checkpointing just like before to save compute and avoid over fitting.
+
+### 5. **Fine-Tuning Phase**
+
+```python
+base_model.trainable = True  # Unfreeze
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=1e-6),
+    ...
+)
+model.fit(...)
+```
+
+After training the top, I will unfreeze the base model and fine-tune the entire network with a slower learning rate.
+
+---
+
+Regarding the code differences:
+
+| Section                | 1st ResNet50             | 2nd ResNet50                          |
+| ---------------------- | ------------------------ | ------------------------------------- |
+| API                    | `Sequential()`           | `Functional()`                        |
+| Input Size             | `(224, 224, 3)`          | `(300, 300, 3)`                       |
+| Preprocessing          | Via ImageDataGenerator   | Inline in model graph                 |
+| Base Model Pooling     | Manual `GlobalAvgPool2D` | `pooling='avg'` argument              |
+| Classification Head    | Dense(512 → 128 → 1)     | Dense(1024 → 512 → 128 → 1)           |
+| Regularization         | Dropout only             | Dropout + BatchNorm after every Dense |
+| Learning Rate Schedule | `ExponentialDecay(1e-4)` | `ExponentialDecay(1e-6)`              |
+| Fine-Tuning            | Optional                 | Fully integrated with lower LR        |
+
+---
+
+Regarding the feature differences:
+
+| Feature / Setting       | **1st ResNet50 Model** (Sequential)                     | **2nd ResNet50 Model** (Functional API)                      |
+| ----------------------- | ------------------------------------------------------- | ------------------------------------------------------------ |
+| **Architecture Type**   | `Sequential` API                                        | `Functional` API                                             |
+| **Input Preprocessing** | Done via `ImageDataGenerator(preprocessing_function)`   | Done inline with `preprocess_input(inputs)`                  |
+| **Base Model Output**   | No `pooling` argument (manual `GlobalAveragePooling2D`) | `pooling='avg'` used in ResNet50 initializer                 |
+| **Intermediate Layers** | Fewer: Dense(512 → 128)                                 | Deeper: Dense(1024 → 512 → 128) + more BatchNorm + Dropout   |
+| **Model Flexibility**   | Less flexible (e.g., hard to use multi-input models)    | More modular, extendable (e.g., attention, branching, etc.)  |
+| **Weight Decay**        | Only applied in optimizer during fine-tuning            | Applied in both initial and fine-tuning phases               |
+| **Training Strategy**   | One-pass training + optional fine-tune                  | Clear two-phase strategy: frozen base → fine-tune full model |
+| **Input Shape**         | 224×224 (lighter on memory)                             | 300×300 (higher resolution = richer features)                |
+
+---
+
+In summary, the 1st ResNet50 is a better choice for a quick prototype as it has a simple `Sequential` setup whle the 2nd model is not ideal for large-scale tuning. In terms of performance-focused target, the 1st has less depth and felxibility hwile the 2nd was designed with better architecture and resolution. Both has good Transfer learning as the 1st leverages pretrained layers and the 2nd has it with deeper fully connected layers. However, the 1st is limited in terms of fine-tuning flexibility. Meanwhile, the 2nd has this privilege with a well=plannned unfreezing backbone. Therefore, the 2nd model is configured to be the improved and production-worth version of the 1st by having better layer structure that handles higher-resolution inputs and uses the API for flexibility. Lastly, the 2nd model adopts a two-phase training schedule that aligns with the best prices in deep learning.
 
 The ResNet50 model achieves very low training loss and high accuracy quickly but fails to improve validation metrics after 15–20 epochs. Also, validation loss increases, indicating memorization over learning, probably because of high model capacity, no regularization like dropout, weight decay and too gressive learning rate as well as lack of data and poor data augmentation at this stage.
 
