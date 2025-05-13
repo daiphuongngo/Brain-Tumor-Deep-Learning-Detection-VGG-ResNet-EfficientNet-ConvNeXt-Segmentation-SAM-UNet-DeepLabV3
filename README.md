@@ -735,7 +735,56 @@ The ResNet50 model achieves very low training loss and high accuracy quickly but
 
 ![Resnet with 100 epochs plot 2](https://github.com/user-attachments/assets/5b74b586-cc09-419b-85a5-f2331cdc2011)
 
-### EfficientNetV2L (initial test with 20 epochs)
+### EfficientNetV2L (1st model)
+
+In my project, classification using pretrained models like ResNet50 or EfficientNetV2L is essential because pretrained CNNs (like EfficientNetV2L) provide me with strong visual feature extractors pretrained on ImageNet, allowing faster convergence and better generalization on small medical datasets that I have them limited and have to augment to enrigh them. Another model like EFficientNetV2L reduces my need for building and training deep architectures from scratch, especially important for medical imaging, where labeled data in my dataset is limited.
+
+There are some key differences betwen my 2 models but they are essential:
+
+| Feature                   | Model 1 (Fast LR)                               | Model 2 (Slow LR)                                     |
+| ------------------------- | ----------------------------------------------- | ----------------------------------------------------- |
+| **Initial Learning Rate** | `1e-4`                                          | `1e-5` (slower and more stable)                       |
+| **Decay Rate**            | `0.9`                                           | `0.85`                                                |
+| **Decay Speed**           | Faster (fewer steps to decay)                   | Slower decay (more gradual fine-tuning)               |
+| **Early Stopping**        | `EarlyStopping` applied                         | `No EarlyStopping` explicitly shown in fine-tuning    |
+| **Fine-tuning Phase**     | Fine-tune at `1e-5`                             | Fine-tune at `1e-6` (more cautious learning)          |
+| **Output Model File**     | `efficientnetv2l_binary_model.keras`            | `efficientnetv2l_binary_model_v2.keras`               |
+| **Code Structure**        | Single script with early stopping + fine-tuning | More modular which shows clear split between phase 1 and phase 2 |
+
+---
+
+Regarding the comparison between them in code, there are shared points between both:
+
+* **Architecture**: EfficientNetV2L without top, followed by:
+
+  * GlobalAveragePooling → BatchNorm → Dropout → Dense(512) → Dropout → Dense(256) → Dropout → Dense(1 sigmoid)
+* **Loss**: `binary_crossentropy`
+* **Metrics**: `accuracy`, `AUC`, and custom `binary_iou`
+* **Data**: `ImageDataGenerator` with the same augmentation, using the same dataset path.
+
+But there are some actual differences between them in codes, especially about learning pace:
+
+**1st Model (Fast LR)**:
+
+```python
+lr_schedule = ExponentialDecay(1e-4, decay_steps=1000, decay_rate=0.9)
+...
+model.fit(..., epochs=30, callbacks=[earlystop])
+model.compile(..., learning_rate=1e-5)
+model.fit(..., epochs=10)
+```
+
+**2nd Model (Slow LR)**:
+
+```python
+lr_schedule = ExponentialDecay(1e-5, decay_steps=1000, decay_rate=0.85)
+...
+model.fit(..., epochs=30)
+model.compile(..., learning_rate=1e-6)
+model.fit(..., epochs=10)
+```
+
+These differences matter as lower initial LR and slower decay in the 2nd model make it more robust against overfitting and noisy gradient updates. I will consider this as suitable for sensitive medical classification tasks. A noteworthy point is that my 1st model has faster training but risks overshooting minima, while my 2nd model has a more careful convergence so it trades time for precision. Lastly, my 1st model explicit uses `EarlyStopping` to save training time by stopping early if no improvement is observed.
 
 ![download (57)](https://github.com/user-attachments/assets/0ba13af8-ed10-4a1c-ad28-a9493592f8bd)
 
