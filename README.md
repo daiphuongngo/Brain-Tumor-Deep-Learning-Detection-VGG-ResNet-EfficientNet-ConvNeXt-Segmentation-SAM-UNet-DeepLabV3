@@ -4,7 +4,7 @@
 
 ![Harvard-Extension-School](https://github.com/user-attachments/assets/7de8c00d-6d74-456f-9b18-abb3174e83d5)
 
-## **Master of Liberal Arts, Data Science**
+## **Master, Data Science**
 
 ## CSCI E-25 Computer Vision in Python
 
