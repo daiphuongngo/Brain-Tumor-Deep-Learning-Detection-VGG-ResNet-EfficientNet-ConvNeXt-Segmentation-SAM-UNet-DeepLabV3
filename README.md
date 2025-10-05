@@ -10,7 +10,7 @@
 
 ## Timeline: January 6th - May 16th, 2025 (Completed)
 
-## Professor: Stephen Elston
+## Professor: Stephen Elston, PhD, Princeton University, Principal Consultant, Quantia Analytics LLC
 
 ## Author: Dai-Phuong Ngo (Liam)
 
