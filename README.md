@@ -14,6 +14,8 @@
 
 ## Author: Dai-Phuong Ngo (Liam)
 
+### Youtube: [https://youtu.be/YuuLLWnYkxo](https://youtu.be/YuuLLWnYkxo)
+
 ## Executive Summary
 
 When this academic term of Computer Vision was about to arrive, I had been considering which kind of project and data I should invest in and take privileges from this course and Professor Stephen Elston's professional advice. I used to work with non-structured data, such as images or PDF files, to extract necessary information for later process and insights. The good thing about them is that they tend to be black and out with text and figures for extraction and identification. For those projects in my previous company, I utilized the power of Computer Vision programming and efficient models in Python for absolute solutions without relying on paid AI services from big tech firms. Later on, I realized that I should try to work on more complex image data that is not about text and figures on digital files and physical papers for this course's project. There are multiple reasons for me in doing so: pushing myself limits out of the comfort zone of the text-typed image data into very unstructured data, immerse myself into a new industry and reasearch, apply new kinds of algorithms, metrics and Deep Learning models for computer Vision purposes.
